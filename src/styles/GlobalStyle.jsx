@@ -5,6 +5,9 @@ export const GlobalStyle = createGlobalStyle`
   ${reset}
   :root {
     background-color: #f0ebf8;
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
   }
   li{
     list-style:none;
