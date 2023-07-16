@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TitleBoxWrap,
   TitleBoxTopColor,
@@ -12,6 +12,24 @@ import {
 
 export default function TitleBox() {
   const [isClicked, setIsClicked] = useState(false);
+  const [title, setTitle] = useState(
+    localStorage.getItem("title") || "제목 없는 설문지"
+  );
+  const [description, setDescription] = useState(
+    localStorage.getItem("description") || ""
+  );
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleDesChange = (e) => {
+    setDescription(e.target.value);
+  };
+  useEffect(() => {
+    localStorage.setItem("title", title);
+  }, [title]);
+  useEffect(() => {
+    localStorage.setItem("description", description);
+  }, [description]);
 
   return (
     <TitleBoxWrap
@@ -29,8 +47,10 @@ export default function TitleBox() {
         <TitleInput
           id="title"
           type="text"
-          placeholder="제목 없는 설문지"
+          placeholder="설문지 제목"
           isClicked={isClicked}
+          value={title}
+          onChange={handleTitleChange}
         />
         <AnimatedBorderTitleSpan />
         <label htmlFor="description" className="a11y-hidden">
@@ -40,6 +60,8 @@ export default function TitleBox() {
           id="description"
           placeholder="설문지 설명"
           isClicked={isClicked}
+          value={description}
+          onChange={handleDesChange}
         />
         <AnimatedBorderDescSpan />
       </TitleForm>

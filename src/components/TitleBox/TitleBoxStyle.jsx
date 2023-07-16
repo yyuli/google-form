@@ -75,7 +75,7 @@ const TitleInput = styled.input`
   margin-top: 8px;
   ${CommonInput}
   &::placeholder {
-    color: #202124;
+    color: #70757a;
   }
 `;
 const TitleDesInput = styled.input`
