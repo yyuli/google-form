@@ -37,7 +37,7 @@ export default function TitleBox() {
         setIsClicked(true);
       }}
     >
-      <h1 className="a11y-hidden">설문지명</h1>
+      <h2 className="a11y-hidden">설문지명</h2>
       <TitleBoxTopColor />
       {isClicked ? <TitleBoxLeftColor /> : null}
       <TitleForm>
