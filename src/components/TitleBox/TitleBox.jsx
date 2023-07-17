@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   TitleBoxWrap,
   TitleBoxTopColor,
-  TitleBoxLeftColor,
+  SelectedBoxLeftColor,
   TitleForm,
   AnimatedBorderTitleSpan,
   AnimatedBorderDescSpan,
@@ -39,7 +39,7 @@ export default function TitleBox() {
     >
       <h2 className="a11y-hidden">설문지명</h2>
       <TitleBoxTopColor />
-      {isClicked ? <TitleBoxLeftColor /> : null}
+      {isClicked ? <SelectedBoxLeftColor /> : null}
       <TitleForm>
         <label htmlFor="title" className="a11y-hidden">
           설문지 제목

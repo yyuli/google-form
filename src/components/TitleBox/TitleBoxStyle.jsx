@@ -20,7 +20,7 @@ const TitleBoxTopColor = styled.div`
   border-radius: 8px 8px 0 0;
   z-index: 1;
 `;
-const TitleBoxLeftColor = styled.div`
+const SelectedBoxLeftColor = styled.div`
   width: 6px;
   height: 100%;
   background-color: #4285f4;
@@ -57,6 +57,7 @@ const AnimatedBorderDescSpan = styled.span`
 `;
 const CommonInput = css`
   border-bottom: ${({ isClicked }) => (isClicked ? "1px solid #0000001f" : "")};
+  padding-top: ${({ isClicked }) => (isClicked ? "1px" : "")};
   &:focus + ${AnimatedBorderTitleSpan}, &:focus + ${AnimatedBorderDescSpan} {
     animation: ${expandBorderBottom} 0.4s forwards;
   }
@@ -88,7 +89,7 @@ const TitleDesInput = styled.input`
 export {
   TitleBoxWrap,
   TitleBoxTopColor,
-  TitleBoxLeftColor,
+  SelectedBoxLeftColor,
   TitleForm,
   AnimatedBorderTitleSpan,
   AnimatedBorderDescSpan,
