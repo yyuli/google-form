@@ -56,13 +56,7 @@ const AnimatedBorderDescSpan = styled.span`
   bottom: 0;
 `;
 const CommonInput = css`
-  border: 0;
   border-bottom: ${({ isClicked }) => (isClicked ? "1px solid #0000001f" : "")};
-  padding: 0;
-  box-sizing: border-box;
-  &:focus {
-    outline: none;
-  }
   &:focus + ${AnimatedBorderTitleSpan}, &:focus + ${AnimatedBorderDescSpan} {
     animation: ${expandBorderBottom} 0.4s forwards;
   }

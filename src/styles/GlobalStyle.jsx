@@ -19,6 +19,18 @@ export const GlobalStyle = createGlobalStyle`
     color: black;
     text-decoration: none;
   }
+  input {
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
+    outline: 0;
+  }
+  button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+  }
+
   .a11y-hidden {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
