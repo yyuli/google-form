@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled, { css, keyframes } from "styled-components";
 import dots from "../../assets/images/dots.svg";
 import select from "../../assets/images/select.svg";
 import circle from "../../assets/images/circle.svg";
 import remove from "../../assets/images/delete.svg";
 import copy from "../../assets/images/copy.svg";
 import trash from "../../assets/images/trash.svg";
-import { SelectedBoxLeftColor } from "../../components/TitleBox/TitleBoxStyle";
+import {
+  SelectedBoxLeftColor,
+  ExpandBorderBottom,
+  CommonSpan,
+} from "../../components/TitleBox/TitleBoxStyle";
 
 const QuestionBoxWrap = styled.article`
   width: 768px;
@@ -18,7 +22,7 @@ const QuestionBoxWrap = styled.article`
 `;
 const CommonDrag = css`
   cursor: move;
-  background: url(${dots}) no-repeat center 3px;
+  background: url(${dots}) no-repeat center 4px;
 `;
 const QuestionDragBtn = styled.button`
   width: 100%;
@@ -31,18 +35,30 @@ const QuestionTitleSection = styled.section`
   padding: 0 24px;
   box-sizing: border-box;
   margin-bottom: 8px;
+  position: relative;
+`;
+const AnimatedQuestionTitleSpan = styled.span`
+  ${CommonSpan}
+  bottom: 0;
+`;
+const AnimateQuestionTitleDiv = styled.div`
+  position: relative;
+  width: 448px;
+  margin-right: 60px;
 `;
 const QuestionTitleInput = styled.input`
-  width: 448px;
+  width: 100%;
   height: 56px;
   padding: 16px;
-  font-size: 16px;
+  font-size: 15px;
   color: #202124;
   background-color: #f8f9fa;
   border-bottom: 1px solid #80858b;
-  margin-right: 60px;
   &:hover {
     background-color: #f2f3f4;
+  }
+  &:focus + ${AnimatedQuestionTitleSpan} {
+    animation: ${ExpandBorderBottom} 0.4s forwards;
   }
 `;
 const QuestionTypeSelect = styled.div`
@@ -118,16 +134,27 @@ const QuestionListDragBtn = styled.button`
   ${CommonDrag};
   position: absolute;
   top: 5.5px;
-  left: 0;
+  left: 2px;
+`;
+const AnimatedQuestionListSpan = styled.span`
+  ${CommonSpan}
+  bottom: 0;
+`;
+const AnimateQuestionListDiv = styled.div`
+  position: relative;
+  width: 594px;
+  margin: 0 59px 0 10px;
 `;
 const QuestionListInput = styled.input`
-  width: 595px;
+  width: 100%;
   height: 39px;
-  margin: 0 59px 0 10px;
   font-size: 14px;
   &:hover {
     padding-top: 1px;
     border-bottom: 1px solid #0000001f;
+  }
+  &:focus + ${AnimatedQuestionListSpan} {
+    animation: ${ExpandBorderBottom} 0.4s forwards;
   }
 `;
 const QuestionListRemoveBtn = styled.button`
@@ -236,13 +263,31 @@ const ToggleButtonSpan = styled.span`
 export default function QuestionBox() {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
+  const [questionTitle, setQuestionTitle] = useState("제목 없는 질문");
+  const [questionItem, setQuestionItem] = useState("옵션 1");
+  const [isQuestionListInputHovered, setIsQuestionListInputHovered] =
+    useState(false);
+  const handleQuestionTitleChange = (e) => {
+    setQuestionTitle(e.target.value);
+  };
+  const handleQuestionItem = (e) => {
+    setQuestionItem(e.target.value);
+  };
   return (
     <QuestionBoxWrap>
       <h2 className="a11y-hidden">질문</h2>
       <QuestionDragBtn />
       <SelectedBoxLeftColor />
       <QuestionTitleSection>
-        <QuestionTitleInput placeholder="질문" />
+        <AnimateQuestionTitleDiv>
+          <QuestionTitleInput
+            type="text"
+            placeholder="질문"
+            value={questionTitle}
+            onChange={handleQuestionTitleChange}
+          />
+          <AnimatedQuestionTitleSpan />
+        </AnimateQuestionTitleDiv>
         <QuestionTypeSelect
           onClick={() => setIsActiveTypeSelect(!isActiveTypeSelect)}
           className={isActiveTypeSelect ? "active" : ""}
@@ -268,10 +313,20 @@ export default function QuestionBox() {
         </QuestionTypeSelect>
       </QuestionTitleSection>
       <QuestionListSection>
-        <QuestionListDiv>
-          <QuestionListDragBtn />
+        <QuestionListDiv
+          onMouseEnter={() => setIsQuestionListInputHovered(true)}
+          onMouseLeave={() => setIsQuestionListInputHovered(false)}
+        >
+          {isQuestionListInputHovered && <QuestionListDragBtn />}
           <img src={circle} alt="빈 라디오 버튼"></img>
-          <QuestionListInput />
+          <AnimateQuestionListDiv>
+            <QuestionListInput
+              type="text"
+              value={questionItem}
+              onChange={handleQuestionItem}
+            />
+            <AnimatedQuestionListSpan />
+          </AnimateQuestionListDiv>
           <QuestionListRemoveBtn />
         </QuestionListDiv>
         <QuestionListDiv>

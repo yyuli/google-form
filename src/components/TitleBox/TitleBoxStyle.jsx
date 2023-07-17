@@ -29,7 +29,7 @@ const SelectedBoxLeftColor = styled.div`
   left: 0;
   border-radius: 8px 0px 0 8px;
 `;
-const expandBorderBottom = keyframes`
+const ExpandBorderBottom = keyframes`
   0% {
     width: 0;
   }
@@ -59,7 +59,7 @@ const CommonInput = css`
   border-bottom: ${({ isClicked }) => (isClicked ? "1px solid #0000001f" : "")};
   padding-top: ${({ isClicked }) => (isClicked ? "1px" : "")};
   &:focus + ${AnimatedBorderTitleSpan}, &:focus + ${AnimatedBorderDescSpan} {
-    animation: ${expandBorderBottom} 0.4s forwards;
+    animation: ${ExpandBorderBottom} 0.4s forwards;
   }
 `;
 const TitleInput = styled.input`
@@ -90,7 +90,9 @@ export {
   TitleBoxWrap,
   TitleBoxTopColor,
   SelectedBoxLeftColor,
+  ExpandBorderBottom,
   TitleForm,
+  CommonSpan,
   AnimatedBorderTitleSpan,
   AnimatedBorderDescSpan,
   TitleInput,
