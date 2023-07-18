@@ -8,6 +8,11 @@ import {
   QuestionItemLi,
   QuestionItemP,
 } from "./QuestionItemStyle";
+import {
+  QuestionListDiv,
+  QuestionListEtcDiv,
+  QuestionListInput,
+} from "../QuestionBox/QuestionBoxStyle";
 
 export default function QuestionItem({ item }) {
   const [isQuestionItemHovered, setIsQuestionItemHovered] = useState(false);
@@ -27,6 +32,14 @@ export default function QuestionItem({ item }) {
             <QuestionItemP>{item}</QuestionItemP>
           </QuestionItemLi>
         ))}
+        {item.etc && (
+          <QuestionListDiv>
+            <img src={circle} alt="빈 라디오 버튼" />
+            <QuestionListEtcDiv>
+              <QuestionListInput type="text" placeholder="기타..." readOnly />
+            </QuestionListEtcDiv>
+          </QuestionListDiv>
+        )}
       </ul>
     </QuestionItemWrap>
   );

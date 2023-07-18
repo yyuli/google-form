@@ -54,6 +54,7 @@ export default function QuestionBox() {
     const newItem = {
       title: questionTitle,
       items: [...options],
+      etc: showEtcOption,
     };
     setItems([...items, newItem]);
   };

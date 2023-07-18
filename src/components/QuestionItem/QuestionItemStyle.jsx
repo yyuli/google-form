@@ -7,23 +7,23 @@ const QuestionItemWrap = styled.article`
   box-sizing: border-box;
   border: 1px solid #dadce0;
   margin: 12px 0;
-  padding: 0 24px;
+  padding: 0px 24px 24px;
 `;
 const QuestionItemDragDiv = styled.div`
   width: 100%;
-  height: 24px;
+  height: 28px;
   background-color: #fff;
 `;
 const QuestionItemTitle = styled.h3`
-  height: 24px;
+  height: 32px;
   font-size: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 `;
 const QuestionItemLi = styled.li`
-  height: 24px;
+  height: 32px;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 `;
 const QuestionItemP = styled.p`
   font-size: 14px;
