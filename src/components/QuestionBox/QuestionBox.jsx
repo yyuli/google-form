@@ -15,6 +15,7 @@ import {
   QuestionListDragBtn,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,
+  QuestionListEtcDiv,
   QuestionListInput,
   QuestionListRemoveBtn,
   QuestionListAddInput,
@@ -40,6 +41,7 @@ export default function QuestionBox() {
   const [items, setItems] = useState([]);
   const [options, setOptions] = useState([questionItem]);
   const [hoverState, setHoverState] = useState(options.map(() => false));
+  const [showEtcOption, setShowEtcOption] = useState(false);
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
   };
@@ -69,6 +71,9 @@ export default function QuestionBox() {
   };
   const handleMouseLeave = (index) => {
     setHoverState(options.map(() => false));
+  };
+  const handleShowEtc = (state) => {
+    setShowEtcOption(state);
   };
   return (
     <>
@@ -136,6 +141,17 @@ export default function QuestionBox() {
               )}
             </QuestionListDiv>
           ))}
+          {showEtcOption && (
+            <QuestionListDiv>
+              <img src={circle} alt="빈 라디오 버튼" />
+              <QuestionListEtcDiv>
+                <QuestionListInput type="text" placeholder="기타..." readOnly />
+              </QuestionListEtcDiv>
+              {options.length === 0 ? null : (
+                <QuestionListRemoveBtn onClick={() => handleShowEtc(false)} />
+              )}
+            </QuestionListDiv>
+          )}
           <QuestionListAddDiv>
             <img src={circle} alt="빈 라디오 버튼" />
             <QuestionListAddInput
@@ -143,8 +159,14 @@ export default function QuestionBox() {
               onClick={addOption}
               readOnly
             />
-            <QuestionListSpan>또는</QuestionListSpan>
-            <QuestionListAddBtn>'기타' 추가</QuestionListAddBtn>
+            {!showEtcOption && (
+              <>
+                <QuestionListSpan>또는</QuestionListSpan>
+                <QuestionListAddBtn onClick={() => handleShowEtc(true)}>
+                  '기타' 추가
+                </QuestionListAddBtn>
+              </>
+            )}
           </QuestionListAddDiv>
           <QuestionListIconDiv>
             <QuestionListIconBtn onClick={addItem}>

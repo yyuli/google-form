@@ -147,7 +147,7 @@ const AnimateQuestionListDiv = styled.div`
 `;
 const QuestionListInput = styled.input`
   width: 100%;
-  height: 39px;
+  height: 32px;
   font-size: 14px;
   &:hover {
     padding-top: 1px;
@@ -155,6 +155,14 @@ const QuestionListInput = styled.input`
   }
   &:focus + ${AnimatedQuestionListSpan} {
     animation: ${ExpandBorderBottom} 0.4s forwards;
+  }
+`;
+const QuestionListEtcDiv = styled.div`
+  width: 642px;
+  margin: 0 0px 0 10px;
+  &:hover ${QuestionListInput} {
+    padding-top: 0.5px;
+    border-bottom: 0.5px dashed #0000007e;
   }
 `;
 const QuestionListRemoveBtn = styled.button`
@@ -276,6 +284,7 @@ export {
   QuestionListDragBtn,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,
+  QuestionListEtcDiv,
   QuestionListInput,
   QuestionListRemoveBtn,
   QuestionListAddInput,
