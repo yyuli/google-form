@@ -9,6 +9,7 @@ const TitleBoxWrap = styled.article`
   border-radius: 8px;
   box-sizing: border-box;
   position: relative;
+  border: 1px solid #dadce0;
 `;
 const TitleBoxTopColor = styled.div`
   width: 100%;

@@ -14,6 +14,7 @@ const QuestionBoxWrap = styled.article`
   box-sizing: border-box;
   margin-top: 12px;
   position: relative;
+  border: 1px solid #dadce0;
 `;
 const CommonDrag = css`
   cursor: move;
