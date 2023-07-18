@@ -121,16 +121,20 @@ const QuestionListSection = styled.section`
   width: 100%;
   padding: 0 24px;
   box-sizing: border-box;
+`;
+const QuestionListDiv = styled.div`
+  display: flex;
+  align-items: center;
   position: relative;
 `;
 const QuestionListDragBtn = styled.button`
   width: 27px;
   height: 27px;
-  transform: rotate(90deg);
   ${CommonDrag};
   position: absolute;
-  top: 5.5px;
-  left: 2px;
+  top: 50%;
+  left: -22px;
+  transform: translateY(-50%) rotate(90deg);
 `;
 const AnimatedQuestionListSpan = styled.span`
   ${CommonSpan}
@@ -154,21 +158,26 @@ const QuestionListInput = styled.input`
   }
 `;
 const QuestionListRemoveBtn = styled.button`
-  width: 24px;
-  height: 24px;
+  width: 48px;
+  height: 48px;
   background-image: url(${remove});
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
+  &:hover {
+    background-color: #f8f9fa;
+    border-radius: 50%;
+  }
 `;
 const QuestionListAddInput = styled.input`
   width: 53px;
   height: 30px;
   margin: 0 6px 0 10px;
 `;
-const QuestionListDiv = styled.div`
+const QuestionListAddDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-top: 6px;
   &:hover ${QuestionListAddInput} {
     padding-top: 1px;
     border-bottom: 1px solid #0000001f;
@@ -271,6 +280,7 @@ export {
   QuestionListRemoveBtn,
   QuestionListAddInput,
   QuestionListDiv,
+  QuestionListAddDiv,
   QuestionListSpan,
   QuestionListAddBtn,
   QuestionListIconDiv,
