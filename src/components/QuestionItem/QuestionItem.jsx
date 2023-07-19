@@ -7,9 +7,9 @@ import {
   QuestionItemTitle,
   QuestionItemLi,
   QuestionItemP,
+  QuestionListWrapDiv,
 } from "./QuestionItemStyle";
 import {
-  QuestionListDiv,
   QuestionListEtcDiv,
   QuestionListInput,
 } from "../QuestionBox/QuestionBoxStyle";
@@ -33,12 +33,12 @@ export default function QuestionItem({ item }) {
           </QuestionItemLi>
         ))}
         {item.etc && (
-          <QuestionListDiv>
+          <QuestionListWrapDiv>
             <img src={circle} alt="빈 라디오 버튼" />
             <QuestionListEtcDiv>
               <QuestionListInput type="text" placeholder="기타..." readOnly />
             </QuestionListEtcDiv>
-          </QuestionListDiv>
+          </QuestionListWrapDiv>
         )}
       </ul>
     </QuestionItemWrap>

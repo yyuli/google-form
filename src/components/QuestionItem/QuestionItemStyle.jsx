@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { QuestionListDiv } from "../QuestionBox/QuestionBoxStyle";
 
 const QuestionItemWrap = styled.article`
   width: 768px;
@@ -23,11 +24,16 @@ const QuestionItemLi = styled.li`
   height: 32px;
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  &:not(:first-of-type) {
+    margin-top: 12px;
+  }
 `;
 const QuestionItemP = styled.p`
   font-size: 14px;
   margin-left: 10px;
+`;
+const QuestionListWrapDiv = styled(QuestionListDiv)`
+  margin-top: 12px;
 `;
 
 export {
@@ -36,4 +42,5 @@ export {
   QuestionItemTitle,
   QuestionItemLi,
   QuestionItemP,
+  QuestionListWrapDiv,
 };
