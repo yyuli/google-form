@@ -14,10 +14,13 @@ import {
   QuestionTypeSelect,
   QuestionListSection,
   QuestionListDragBtn,
+  QuestionListNumberSpan,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,
   QuestionListEtcDiv,
   QuestionListInput,
+  QuestionListShortInput,
+  QuestionListLongInput,
   QuestionListRemoveBtn,
   QuestionListAddInput,
   QuestionListDiv,
@@ -62,6 +65,7 @@ export default function QuestionBox() {
     setItems([...items, newItem]);
     setShowEtcOption(false);
     setOptions([questionItem]);
+    setQuestionTitle("제목 없는 질문");
   };
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;
@@ -131,28 +135,43 @@ export default function QuestionBox() {
           </QuestionTypeSelect>
         </QuestionTitleSection>
         <QuestionListSection>
-          {options.map((option, index) => (
-            <QuestionListDiv
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-              key={index}
-            >
-              {hoverState[index] && <QuestionListDragBtn />}
-              <img src={circle} alt="빈 라디오 버튼" />
-              <AnimateQuestionListDiv>
-                <QuestionListInput
-                  type="text"
-                  value={option}
-                  onChange={(e) => handleQuestionItem(e, index)}
-                />
-                <AnimatedQuestionListSpan />
-              </AnimateQuestionListDiv>
-              {options.length === 1 ? null : (
-                <QuestionListRemoveBtn onClick={() => removeOption(index)} />
-              )}
-            </QuestionListDiv>
-          ))}
-          {showEtcOption && (
+          {selectedQuestionType === "단답형" && (
+            <QuestionListShortInput
+              type="text"
+              placeholder="단답형 텍스트"
+              readOnly
+            />
+          )}
+          {selectedQuestionType === "장문형" && (
+            <QuestionListLongInput
+              type="text"
+              placeholder="장문형 텍스트"
+              readOnly
+            />
+          )}
+          {selectedQuestionType === "객관식 질문" &&
+            options.map((option, index) => (
+              <QuestionListDiv
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                key={index}
+              >
+                {hoverState[index] && <QuestionListDragBtn />}
+                <img src={circle} alt="빈 라디오 버튼" />
+                <AnimateQuestionListDiv>
+                  <QuestionListInput
+                    type="text"
+                    value={option}
+                    onChange={(e) => handleQuestionItem(e, index)}
+                  />
+                  <AnimatedQuestionListSpan />
+                </AnimateQuestionListDiv>
+                {options.length === 1 ? null : (
+                  <QuestionListRemoveBtn onClick={() => removeOption(index)} />
+                )}
+              </QuestionListDiv>
+            ))}
+          {selectedQuestionType === "객관식 질문" && showEtcOption && (
             <QuestionListDiv>
               <img src={circle} alt="빈 라디오 버튼" />
               <QuestionListEtcDiv>
@@ -163,22 +182,109 @@ export default function QuestionBox() {
               )}
             </QuestionListDiv>
           )}
-          <QuestionListAddDiv>
-            <img src={circle} alt="빈 라디오 버튼" />
-            <QuestionListAddInput
-              placeholder="옵션 추가"
-              onClick={addOption}
-              readOnly
-            />
-            {!showEtcOption && (
-              <>
-                <QuestionListSpan>또는</QuestionListSpan>
-                <QuestionListAddBtn onClick={() => handleShowEtc(true)}>
-                  '기타' 추가
-                </QuestionListAddBtn>
-              </>
-            )}
-          </QuestionListAddDiv>
+          {selectedQuestionType === "객관식 질문" && (
+            <QuestionListAddDiv>
+              <img src={circle} alt="빈 라디오 버튼" />
+              <QuestionListAddInput
+                placeholder="옵션 추가"
+                onClick={addOption}
+                readOnly
+              />
+              {!showEtcOption && (
+                <>
+                  <QuestionListSpan>또는</QuestionListSpan>
+                  <QuestionListAddBtn onClick={() => handleShowEtc(true)}>
+                    '기타' 추가
+                  </QuestionListAddBtn>
+                </>
+              )}
+            </QuestionListAddDiv>
+          )}
+          {selectedQuestionType === "체크박스" &&
+            options.map((option, index) => (
+              <QuestionListDiv
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                key={index}
+              >
+                {hoverState[index] && <QuestionListDragBtn />}
+                <img src={square} alt="빈 라디오 버튼" />
+                <AnimateQuestionListDiv>
+                  <QuestionListInput
+                    type="text"
+                    value={option}
+                    onChange={(e) => handleQuestionItem(e, index)}
+                  />
+                  <AnimatedQuestionListSpan />
+                </AnimateQuestionListDiv>
+                {options.length === 1 ? null : (
+                  <QuestionListRemoveBtn onClick={() => removeOption(index)} />
+                )}
+              </QuestionListDiv>
+            ))}
+          {selectedQuestionType === "체크박스" && showEtcOption && (
+            <QuestionListDiv>
+              <img src={square} alt="빈 라디오 버튼" />
+              <QuestionListEtcDiv>
+                <QuestionListInput type="text" placeholder="기타..." readOnly />
+              </QuestionListEtcDiv>
+              {options.length === 0 ? null : (
+                <QuestionListRemoveBtn onClick={() => handleShowEtc(false)} />
+              )}
+            </QuestionListDiv>
+          )}
+          {selectedQuestionType === "체크박스" && (
+            <QuestionListAddDiv>
+              <img src={square} alt="빈 라디오 버튼" />
+              <QuestionListAddInput
+                placeholder="옵션 추가"
+                onClick={addOption}
+                readOnly
+              />
+              {!showEtcOption && (
+                <>
+                  <QuestionListSpan>또는</QuestionListSpan>
+                  <QuestionListAddBtn onClick={() => handleShowEtc(true)}>
+                    '기타' 추가
+                  </QuestionListAddBtn>
+                </>
+              )}
+            </QuestionListAddDiv>
+          )}
+          {selectedQuestionType === "드롭다운" &&
+            options.map((option, index) => (
+              <QuestionListDiv
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                key={index}
+              >
+                {hoverState[index] && <QuestionListDragBtn />}
+                <QuestionListNumberSpan>{index + 1}</QuestionListNumberSpan>
+                <AnimateQuestionListDiv>
+                  <QuestionListInput
+                    type="text"
+                    value={option}
+                    onChange={(e) => handleQuestionItem(e, index)}
+                  />
+                  <AnimatedQuestionListSpan />
+                </AnimateQuestionListDiv>
+                {options.length === 1 ? null : (
+                  <QuestionListRemoveBtn onClick={() => removeOption(index)} />
+                )}
+              </QuestionListDiv>
+            ))}
+          {selectedQuestionType === "드롭다운" && (
+            <QuestionListAddDiv>
+              <QuestionListNumberSpan>
+                {options.length + 1}
+              </QuestionListNumberSpan>
+              <QuestionListAddInput
+                placeholder="옵션 추가"
+                onClick={addOption}
+                readOnly
+              />
+            </QuestionListAddDiv>
+          )}
           <QuestionListIconDiv>
             <QuestionListIconBtn onClick={addItem}>
               <img src={copy} alt="복사 버튼" />

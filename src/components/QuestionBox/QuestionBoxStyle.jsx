@@ -31,7 +31,7 @@ const QuestionTitleSection = styled.section`
   width: 100%;
   padding: 0 24px;
   box-sizing: border-box;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   position: relative;
 `;
 const AnimatedQuestionTitleSpan = styled.span`
@@ -138,6 +138,9 @@ const QuestionListDragBtn = styled.button`
   left: -22px;
   transform: translateY(-50%) rotate(90deg);
 `;
+const QuestionListNumberSpan = styled.span`
+  font-size: 14px;
+`;
 const AnimatedQuestionListSpan = styled.span`
   ${CommonSpan}
   bottom: 0;
@@ -159,9 +162,23 @@ const QuestionListInput = styled.input`
     animation: ${ExpandBorderBottom} 0.4s forwards;
   }
 `;
+const QuestionListShortInput = styled.input`
+  width: 360px;
+  height: 24px;
+  font-size: 14px;
+  border-bottom: 0.5px dashed #0000007e;
+  margin-bottom: 14px;
+`;
+const QuestionListLongInput = styled.input`
+  width: 612px;
+  height: 24px;
+  font-size: 14px;
+  border-bottom: 0.5px dashed #0000007e;
+  margin-bottom: 14px;
+`;
 const QuestionListEtcDiv = styled.div`
   width: 642px;
-  margin: 0 0px 0 10px;
+  margin-left: 10px;
   &:hover ${QuestionListInput} {
     padding-top: 0.5px;
     border-bottom: 0.5px dashed #0000007e;
@@ -284,10 +301,13 @@ export {
   QuestionTypeSelect,
   QuestionListSection,
   QuestionListDragBtn,
+  QuestionListNumberSpan,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,
   QuestionListEtcDiv,
   QuestionListInput,
+  QuestionListShortInput,
+  QuestionListLongInput,
   QuestionListRemoveBtn,
   QuestionListAddInput,
   QuestionListDiv,
