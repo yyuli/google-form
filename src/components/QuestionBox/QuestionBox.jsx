@@ -61,11 +61,14 @@ export default function QuestionBox() {
       title: questionTitle,
       items: [...options],
       etc: showEtcOption,
+      type: selectedQuestionType,
+      required: isActiveToggleSwitch,
     };
     setItems([...items, newItem]);
     setShowEtcOption(false);
     setOptions([questionItem]);
     setQuestionTitle("제목 없는 질문");
+    setSelectedQuestionType("객관식 질문");
   };
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;

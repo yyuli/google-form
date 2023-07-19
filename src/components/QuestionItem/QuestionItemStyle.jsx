@@ -35,7 +35,12 @@ const QuestionItemP = styled.p`
 const QuestionListWrapDiv = styled(QuestionListDiv)`
   margin-top: 12px;
 `;
-
+const QuestionItemRequiredSpan = styled.span`
+  display: inline-block;
+  color: #d93025;
+  font-size: 18px;
+  margin-left: 4px;
+`;
 export {
   QuestionItemWrap,
   QuestionItemDragDiv,
@@ -43,4 +48,5 @@ export {
   QuestionItemLi,
   QuestionItemP,
   QuestionListWrapDiv,
+  QuestionItemRequiredSpan,
 };
