@@ -127,6 +127,7 @@ const QuestionListDiv = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  height: 48px;
 `;
 const QuestionListDragBtn = styled.button`
   width: 27px;

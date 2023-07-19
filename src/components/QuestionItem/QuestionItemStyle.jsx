@@ -33,7 +33,7 @@ const QuestionItemP = styled.p`
   margin-left: 10px;
 `;
 const QuestionListWrapDiv = styled(QuestionListDiv)`
-  margin-top: 12px;
+  margin-top: 4px;
 `;
 const QuestionItemRequiredSpan = styled.span`
   display: inline-block;

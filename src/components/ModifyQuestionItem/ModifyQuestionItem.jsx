@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import circle from "../../assets/images/circle.svg";
 import square from "../../assets/images/square.svg";
 import copy from "../../assets/images/copy.svg";
@@ -33,22 +33,24 @@ import {
   ToggleRequiredSpan,
   ToggleSwitchDiv,
   ToggleButtonSpan,
-} from "./QuestionBoxStyle";
+} from "../QuestionBox/QuestionBoxStyle";
 import NavigationBox from "../NavigationBox/NavigationBox";
-import QuestionItem from "../QuestionItem/QuestionItem";
 
-export default function QuestionBox() {
+export default function ModifyQuestionItem({
+  item,
+  items,
+  setItems,
+  index,
+  setClickedIndex,
+}) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
   const [questionTitle, setQuestionTitle] = useState("제목 없는 질문");
   const [questionItem, setQuestionItem] = useState("옵션 1");
-  const [items, setItems] = useState([]);
   const [options, setOptions] = useState([questionItem]);
   const [hoverState, setHoverState] = useState(options.map(() => false));
   const [showEtcOption, setShowEtcOption] = useState(false);
-  const [selectedQuestionType, setSelectedQuestionType] =
-    useState("객관식 질문");
-  const [clickedIndex, setClickedIndex] = useState(0);
+  const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
   };
@@ -72,6 +74,27 @@ export default function QuestionBox() {
     setSelectedQuestionType("객관식 질문");
     setClickedIndex((prev) => prev + 1);
   };
+  const copyItem = () => {
+    const copiedItem = {
+      title: item.title,
+      items: [...item.items],
+      etc: item.etc,
+      type: item.type,
+      required: item.required,
+    };
+    setClickedIndex((prev) => prev + 1);
+    const newItems = [
+      ...items.slice(0, index),
+      copiedItem,
+      ...items.slice(index),
+    ];
+    setItems(newItems);
+  };
+  const removeItem = () => {
+    setClickedIndex((prev) => prev + 1);
+    const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
+    setItems(newItems);
+  };
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;
     setOptions([...options, newOption]);
@@ -94,6 +117,10 @@ export default function QuestionBox() {
     setSelectedQuestionType(type);
     setIsActiveTypeSelect(!isActiveTypeSelect);
   };
+  const title = useRef();
+  useEffect(() => {
+    title.current.value = item.title;
+  }, []);
 
   const questionTypes = [
     { name: "단답형", id: "short" },
@@ -102,20 +129,8 @@ export default function QuestionBox() {
     { name: "체크박스", id: "check" },
     { name: "드롭다운", id: "drop" },
   ];
-  console.log(clickedIndex);
   return (
     <>
-      {items.map((item, index) => (
-        <QuestionItem
-          key={index}
-          item={item}
-          setClickedIndex={setClickedIndex}
-          clickedIndex={clickedIndex}
-          index={index}
-          items={items}
-          setItems={setItems}
-        />
-      ))}
       <QuestionBoxWrap>
         <NavigationBox addItem={addItem} />
         <h2 className="a11y-hidden">질문</h2>
@@ -126,7 +141,7 @@ export default function QuestionBox() {
             <QuestionTitleInput
               type="text"
               placeholder="질문"
-              value={questionTitle}
+              ref={title}
               onChange={handleQuestionTitleChange}
             />
             <AnimatedQuestionTitleSpan />
@@ -163,7 +178,7 @@ export default function QuestionBox() {
             />
           )}
           {selectedQuestionType === "객관식 질문" &&
-            options.map((option, index) => (
+            item.items.map((item, index) => (
               <QuestionListDiv
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
@@ -174,7 +189,7 @@ export default function QuestionBox() {
                 <AnimateQuestionListDiv>
                   <QuestionListInput
                     type="text"
-                    value={option}
+                    value={item}
                     onChange={(e) => handleQuestionItem(e, index)}
                   />
                   <AnimatedQuestionListSpan />
@@ -184,17 +199,22 @@ export default function QuestionBox() {
                 )}
               </QuestionListDiv>
             ))}
-          {selectedQuestionType === "객관식 질문" && showEtcOption && (
-            <QuestionListDiv>
-              <img src={circle} alt="빈 라디오 버튼" />
-              <QuestionListEtcDiv>
-                <QuestionListInput type="text" placeholder="기타..." readOnly />
-              </QuestionListEtcDiv>
-              {options.length === 0 ? null : (
-                <QuestionListRemoveBtn onClick={() => handleShowEtc(false)} />
-              )}
-            </QuestionListDiv>
-          )}
+          {(selectedQuestionType === "객관식 질문" && showEtcOption) ||
+            (item.type === "객관식 질문" && item.etc && (
+              <QuestionListDiv>
+                <img src={circle} alt="빈 라디오 버튼" />
+                <QuestionListEtcDiv>
+                  <QuestionListInput
+                    type="text"
+                    placeholder="기타..."
+                    readOnly
+                  />
+                </QuestionListEtcDiv>
+                {options.length === 0 ? null : (
+                  <QuestionListRemoveBtn onClick={() => handleShowEtc(false)} />
+                )}
+              </QuestionListDiv>
+            ))}
           {selectedQuestionType === "객관식 질문" && (
             <QuestionListAddDiv>
               <img src={circle} alt="빈 라디오 버튼" />
@@ -203,7 +223,7 @@ export default function QuestionBox() {
                 onClick={addOption}
                 readOnly
               />
-              {!showEtcOption && (
+              {!item.etc && !showEtcOption && (
                 <>
                   <QuestionListSpan>또는</QuestionListSpan>
                   <QuestionListAddBtn onClick={() => handleShowEtc(true)}>
@@ -214,18 +234,18 @@ export default function QuestionBox() {
             </QuestionListAddDiv>
           )}
           {selectedQuestionType === "체크박스" &&
-            options.map((option, index) => (
+            item.items.map((item, index) => (
               <QuestionListDiv
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
                 key={index}
               >
                 {hoverState[index] && <QuestionListDragBtn />}
-                <img src={square} alt="빈 라디오 버튼" />
+                <img src={square} alt="빈 체크박스 버튼" />
                 <AnimateQuestionListDiv>
                   <QuestionListInput
                     type="text"
-                    value={option}
+                    value={item}
                     onChange={(e) => handleQuestionItem(e, index)}
                   />
                   <AnimatedQuestionListSpan />
@@ -235,26 +255,31 @@ export default function QuestionBox() {
                 )}
               </QuestionListDiv>
             ))}
-          {selectedQuestionType === "체크박스" && showEtcOption && (
-            <QuestionListDiv>
-              <img src={square} alt="빈 라디오 버튼" />
-              <QuestionListEtcDiv>
-                <QuestionListInput type="text" placeholder="기타..." readOnly />
-              </QuestionListEtcDiv>
-              {options.length === 0 ? null : (
-                <QuestionListRemoveBtn onClick={() => handleShowEtc(false)} />
-              )}
-            </QuestionListDiv>
-          )}
+          {(selectedQuestionType === "체크박스" && showEtcOption) ||
+            (item.type === "체크박스" && item.etc && (
+              <QuestionListDiv>
+                <img src={square} alt="빈 체크박스 버튼" />
+                <QuestionListEtcDiv>
+                  <QuestionListInput
+                    type="text"
+                    placeholder="기타..."
+                    readOnly
+                  />
+                </QuestionListEtcDiv>
+                {options.length === 0 ? null : (
+                  <QuestionListRemoveBtn onClick={() => handleShowEtc(false)} />
+                )}
+              </QuestionListDiv>
+            ))}
           {selectedQuestionType === "체크박스" && (
             <QuestionListAddDiv>
-              <img src={square} alt="빈 라디오 버튼" />
+              <img src={square} alt="빈 체크박스 버튼" />
               <QuestionListAddInput
                 placeholder="옵션 추가"
                 onClick={addOption}
                 readOnly
               />
-              {!showEtcOption && (
+              {!item.etc && !showEtcOption && (
                 <>
                   <QuestionListSpan>또는</QuestionListSpan>
                   <QuestionListAddBtn onClick={() => handleShowEtc(true)}>
@@ -265,7 +290,7 @@ export default function QuestionBox() {
             </QuestionListAddDiv>
           )}
           {selectedQuestionType === "드롭다운" &&
-            options.map((option, index) => (
+            item.items.map((item, index) => (
               <QuestionListDiv
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
@@ -276,7 +301,7 @@ export default function QuestionBox() {
                 <AnimateQuestionListDiv>
                   <QuestionListInput
                     type="text"
-                    value={option}
+                    value={item}
                     onChange={(e) => handleQuestionItem(e, index)}
                   />
                   <AnimatedQuestionListSpan />
@@ -289,7 +314,7 @@ export default function QuestionBox() {
           {selectedQuestionType === "드롭다운" && (
             <QuestionListAddDiv>
               <QuestionListNumberSpan>
-                {options.length + 1}
+                {item.items.length + 1}
               </QuestionListNumberSpan>
               <QuestionListAddInput
                 placeholder="옵션 추가"
@@ -299,10 +324,10 @@ export default function QuestionBox() {
             </QuestionListAddDiv>
           )}
           <QuestionListIconDiv>
-            <QuestionListIconBtn onClick={addItem}>
-              <img src={copy} alt="복사 버튼" />
-            </QuestionListIconBtn>
             <QuestionListIconBtn>
+              <img src={copy} alt="복사 버튼" onClick={copyItem} />
+            </QuestionListIconBtn>
+            <QuestionListIconBtn onClick={() => removeItem()}>
               <img src={trash} alt="삭제 버튼" />
             </QuestionListIconBtn>
             <QuestionListLineSpan />
@@ -313,7 +338,7 @@ export default function QuestionBox() {
             </ToggleRequiredSpan>
             <ToggleSwitchDiv
               onClick={() => setIsActiveToggleSwitch(!isActiveToggleSwitch)}
-              className={isActiveToggleSwitch ? "active" : ""}
+              className={isActiveToggleSwitch || item.required ? "active" : ""}
             >
               <ToggleButtonSpan />
             </ToggleSwitchDiv>
