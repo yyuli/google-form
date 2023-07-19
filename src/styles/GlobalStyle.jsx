@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #f0ebf8;
     display: flex;
     justify-content: center;
-    padding-top: 12px;
+    padding: 12px 0;
   }
   li{
     list-style:none;
