@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import circle from "../../assets/images/circle.svg";
 import copy from "../../assets/images/copy.svg";
 import trash from "../../assets/images/trash.svg";
+import square from "../../assets/images/square.svg";
 import { SelectedBoxLeftColor } from "../../components/TitleBox/TitleBoxStyle";
 import {
   QuestionBoxWrap,
@@ -42,6 +43,8 @@ export default function QuestionBox() {
   const [options, setOptions] = useState([questionItem]);
   const [hoverState, setHoverState] = useState(options.map(() => false));
   const [showEtcOption, setShowEtcOption] = useState(false);
+  const [selectedQuestionType, setSelectedQuestionType] =
+    useState("객관식 질문");
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
   };
@@ -57,6 +60,8 @@ export default function QuestionBox() {
       etc: showEtcOption,
     };
     setItems([...items, newItem]);
+    setShowEtcOption(false);
+    setOptions([questionItem]);
   };
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;
@@ -76,6 +81,19 @@ export default function QuestionBox() {
   const handleShowEtc = (state) => {
     setShowEtcOption(state);
   };
+  const handleClick = (type) => {
+    setSelectedQuestionType(type);
+    setIsActiveTypeSelect(!isActiveTypeSelect);
+  };
+
+  const questionTypes = [
+    { name: "단답형", id: "short" },
+    { name: "장문형", id: "long" },
+    { name: "객관식 질문", id: "multi" },
+    { name: "체크박스", id: "check" },
+    { name: "드롭다운", id: "drop" },
+  ];
+
   return (
     <>
       {items.map((item, index) => (
@@ -100,23 +118,15 @@ export default function QuestionBox() {
             onClick={() => setIsActiveTypeSelect(!isActiveTypeSelect)}
             className={isActiveTypeSelect ? "active" : ""}
           >
-            <button type="button">객관식 질문</button>
+            <button type="button">{selectedQuestionType}</button>
             <ul>
-              <li>
-                <button type="button">단답형</button>
-              </li>
-              <li>
-                <button type="button">장문형</button>
-              </li>
-              <li>
-                <button type="button">객관식 질문</button>
-              </li>
-              <li>
-                <button type="button">체크박스</button>
-              </li>
-              <li>
-                <button type="button">드롭다운</button>
-              </li>
+              {questionTypes.map((type) => (
+                <li key={type.id}>
+                  <button type="button" onClick={() => handleClick(type.name)}>
+                    {type.name}
+                  </button>
+                </li>
+              ))}
             </ul>
           </QuestionTypeSelect>
         </QuestionTitleSection>

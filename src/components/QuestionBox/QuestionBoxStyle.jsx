@@ -16,14 +16,15 @@ const QuestionBoxWrap = styled.article`
   position: relative;
   border: 1px solid #dadce0;
 `;
-const CommonDrag = css`
-  cursor: move;
-  background: url(${dots}) no-repeat center 4px;
-`;
+// const CommonDrag = css`
+//   cursor: move;
+//   background: url(${dots}) no-repeat center 4px;
+// `;
 const QuestionDragBtn = styled.button`
   width: 100%;
   height: 24px;
-  ${CommonDrag};
+  cursor: move;
+  background: url(${dots}) no-repeat center 4px;
 `;
 const QuestionTitleSection = styled.section`
   display: flex;
@@ -130,7 +131,8 @@ const QuestionListDiv = styled.div`
 const QuestionListDragBtn = styled.button`
   width: 27px;
   height: 27px;
-  ${CommonDrag};
+  cursor: move;
+  background: url(${dots}) no-repeat center 4px;
   position: absolute;
   top: 50%;
   left: -22px;
