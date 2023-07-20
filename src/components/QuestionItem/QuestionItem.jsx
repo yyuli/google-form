@@ -14,15 +14,13 @@ import {
 import {
   QuestionListEtcDiv,
   QuestionListInput,
-} from "../QuestionBox/QuestionBoxStyle";
-import {
   QuestionListShortInput,
   QuestionListLongInput,
   QuestionListNumberSpan,
 } from "../QuestionBox/QuestionBoxStyle";
-import ModifyQuestionItem from "../ModifyQuestionItem/ModifyQuestionItem";
 import { useSelector, useDispatch } from "react-redux";
 import { setIndex } from "../../store/clickSlice";
+import QuestionBox from "../QuestionBox/QuestionBox";
 
 export default function QuestionItem({ item, index, items, setItems }) {
   const [isQuestionItemHovered, setIsQuestionItemHovered] = useState(false);
@@ -42,8 +40,8 @@ export default function QuestionItem({ item, index, items, setItems }) {
   }, [clickedIndex]);
   return (
     <>
-      {isModified ? (
-        <ModifyQuestionItem
+      {isModified || items.length === 1 ? (
+        <QuestionBox
           item={item}
           items={items}
           setItems={setItems}
