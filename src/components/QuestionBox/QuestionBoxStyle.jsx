@@ -2,10 +2,7 @@ import styled, { css } from "styled-components";
 import dots from "../../assets/images/dots.svg";
 import select from "../../assets/images/select.svg";
 import remove from "../../assets/images/delete.svg";
-import {
-  ExpandBorderBottom,
-  CommonSpan,
-} from "../../components/TitleBox/TitleBoxStyle";
+import { ExpandBorderBottom, CommonSpan } from "../TitleBox/TitleBoxStyle";
 
 const QuestionBoxWrap = styled.article`
   width: 768px;
@@ -16,15 +13,14 @@ const QuestionBoxWrap = styled.article`
   position: relative;
   border: 1px solid #dadce0;
 `;
-// const CommonDrag = css`
-//   cursor: move;
-//   background: url(${dots}) no-repeat center 4px;
-// `;
+const CommonDrag = css`
+  cursor: move;
+  background: url(${dots}) no-repeat center 4px;
+`;
 const QuestionDragBtn = styled.button`
   width: 100%;
   height: 24px;
-  cursor: move;
-  background: url(${dots}) no-repeat center 4px;
+  ${CommonDrag};
 `;
 const QuestionTitleSection = styled.section`
   display: flex;
@@ -132,8 +128,7 @@ const QuestionListDiv = styled.div`
 const QuestionListDragBtn = styled.button`
   width: 27px;
   height: 27px;
-  cursor: move;
-  background: url(${dots}) no-repeat center 4px;
+  ${CommonDrag}
   position: absolute;
   top: 50%;
   left: -22px;
