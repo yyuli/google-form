@@ -21,19 +21,17 @@ import {
   QuestionListNumberSpan,
 } from "../QuestionBox/QuestionBoxStyle";
 import ModifyQuestionItem from "../ModifyQuestionItem/ModifyQuestionItem";
+import { useSelector, useDispatch } from "react-redux";
+import { setIndex } from "../../store/clickSlice";
 
-export default function QuestionItem({
-  item,
-  setClickedIndex,
-  index,
-  clickedIndex,
-  items,
-  setItems,
-}) {
+export default function QuestionItem({ item, index, items, setItems }) {
   const [isQuestionItemHovered, setIsQuestionItemHovered] = useState(false);
   const [isModified, setIsModified] = useState(false);
+  const clickedIndex = useSelector((state) => state.click.value);
+  const dispatch = useDispatch();
+
   const handleClick = () => {
-    setClickedIndex(index);
+    dispatch(setIndex(index));
   };
   useEffect(() => {
     if (index === clickedIndex) {
@@ -50,7 +48,6 @@ export default function QuestionItem({
           items={items}
           setItems={setItems}
           index={index}
-          setClickedIndex={setClickedIndex}
         />
       ) : (
         <QuestionItemWrap

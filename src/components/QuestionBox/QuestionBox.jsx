@@ -36,6 +36,8 @@ import {
 } from "./QuestionBoxStyle";
 import NavigationBox from "../NavigationBox/NavigationBox";
 import QuestionItem from "../QuestionItem/QuestionItem";
+import { useDispatch } from "react-redux";
+import { increment } from "../../store/clickSlice";
 
 export default function QuestionBox() {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
@@ -48,7 +50,7 @@ export default function QuestionBox() {
   const [showEtcOption, setShowEtcOption] = useState(false);
   const [selectedQuestionType, setSelectedQuestionType] =
     useState("객관식 질문");
-  const [clickedIndex, setClickedIndex] = useState(0);
+  const dispatch = useDispatch();
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
   };
@@ -70,7 +72,7 @@ export default function QuestionBox() {
     setOptions([questionItem]);
     setQuestionTitle("");
     setSelectedQuestionType("객관식 질문");
-    setClickedIndex((prev) => prev + 1);
+    dispatch(increment());
   };
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;
@@ -102,15 +104,13 @@ export default function QuestionBox() {
     { name: "체크박스", id: "check" },
     { name: "드롭다운", id: "drop" },
   ];
-  console.log(clickedIndex);
+
   return (
     <>
       {items.map((item, index) => (
         <QuestionItem
           key={index}
           item={item}
-          setClickedIndex={setClickedIndex}
-          clickedIndex={clickedIndex}
           index={index}
           items={items}
           setItems={setItems}

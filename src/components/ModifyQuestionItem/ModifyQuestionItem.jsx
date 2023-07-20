@@ -35,14 +35,10 @@ import {
   ToggleButtonSpan,
 } from "../QuestionBox/QuestionBoxStyle";
 import NavigationBox from "../NavigationBox/NavigationBox";
+import { useDispatch } from "react-redux";
+import { increment } from "../../store/clickSlice";
 
-export default function ModifyQuestionItem({
-  item,
-  items,
-  setItems,
-  index,
-  setClickedIndex,
-}) {
+export default function ModifyQuestionItem({ item, items, setItems, index }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
   const [questionTitle, setQuestionTitle] = useState("제목 없는 질문");
@@ -51,6 +47,7 @@ export default function ModifyQuestionItem({
   const [hoverState, setHoverState] = useState(options.map(() => false));
   const [showEtcOption, setShowEtcOption] = useState(false);
   const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
+  const dispatch = useDispatch();
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
   };
@@ -72,7 +69,7 @@ export default function ModifyQuestionItem({
     setOptions([questionItem]);
     setQuestionTitle("");
     setSelectedQuestionType("객관식 질문");
-    setClickedIndex((prev) => prev + 1);
+    dispatch(increment());
   };
   const copyItem = () => {
     const copiedItem = {
@@ -82,7 +79,7 @@ export default function ModifyQuestionItem({
       type: item.type,
       required: item.required,
     };
-    setClickedIndex((prev) => prev + 1);
+    dispatch(increment());
     const newItems = [
       ...items.slice(0, index),
       copiedItem,
@@ -91,7 +88,7 @@ export default function ModifyQuestionItem({
     setItems(newItems);
   };
   const removeItem = () => {
-    setClickedIndex((prev) => prev + 1);
+    dispatch(increment());
     const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
     setItems(newItems);
   };
