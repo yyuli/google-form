@@ -1,13 +1,13 @@
 import TitleBox from "./components/TitleBox/TitleBox";
 import { GlobalStyle } from "./styles/GlobalStyle"; 
-import QuestionBox from "./components/QuestionBox/QuestionBox";
+import QuestionList from "./components/QuestionList/QuestionList";
 
 function App() {
   return (
     <>
       <GlobalStyle/>
       <TitleBox/>
-      <QuestionBox/>
+      <QuestionList/>
     </>
   );
 }
