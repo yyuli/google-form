@@ -39,6 +39,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "../../store/clickedIndexSlice";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
 import { setQuestionListItem } from "../../store/questionListItemSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function QuestionBox({ item, index }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
@@ -135,6 +136,10 @@ export default function QuestionBox({ item, index }) {
     setSelectedQuestionType(type);
     setIsActiveTypeSelect(!isActiveTypeSelect);
   };
+  const navigate = useNavigate();
+  const handlePreview = () => {
+    navigate("/preview");
+  };
   const questionTypes = [
     { name: "단답형", id: "short" },
     { name: "장문형", id: "long" },
@@ -149,7 +154,7 @@ export default function QuestionBox({ item, index }) {
           dispatch(setSelectedBox("QuestionBox"));
         }}
       >
-        <NavigationBox addItem={addItem} />
+        <NavigationBox addItem={addItem} handlePreview={handlePreview} />
         <h2 className="a11y-hidden">질문</h2>
         <QuestionDragBtn />
         {selectedBox === "QuestionBox" ? <SelectedBoxLeftColor /> : null}
