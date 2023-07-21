@@ -8,11 +8,13 @@ import {
   AnimatedBorderDescSpan,
   TitleInput,
   TitleDesInput,
+  TitlePreviewDiv,
+  TitleRequiredP,
 } from "./TitleBoxStyle";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
 
-export default function TitleBox() {
+export default function TitleBox({ disabled }) {
   const selectedBox = useSelector((state) => state.selectedBox.value);
   const dispatch = useDispatch();
   const [title, setTitle] = useState(
@@ -27,6 +29,10 @@ export default function TitleBox() {
   const handleDesChange = (e) => {
     setDescription(e.target.value);
   };
+  const handleClick = () => {
+    if (disabled) return;
+    dispatch(setSelectedBox("TitleBox"));
+  };
   useEffect(() => {
     localStorage.setItem("title", title);
   }, [title]);
@@ -35,11 +41,7 @@ export default function TitleBox() {
   }, [description]);
 
   return (
-    <TitleBoxWrap
-      onClick={() => {
-        dispatch(setSelectedBox("TitleBox"));
-      }}
-    >
+    <TitleBoxWrap onClick={handleClick}>
       <h2 className="a11y-hidden">설문지명</h2>
       <TitleBoxTopColor />
       {selectedBox === "TitleBox" ? <SelectedBoxLeftColor /> : null}
@@ -54,8 +56,9 @@ export default function TitleBox() {
           selectedBox={selectedBox}
           value={title}
           onChange={handleTitleChange}
+          readOnly={disabled}
         />
-        <AnimatedBorderTitleSpan />
+        {disabled ? null : <AnimatedBorderTitleSpan />}
         <label htmlFor="description" className="a11y-hidden">
           설문지 설명
         </label>
@@ -65,9 +68,16 @@ export default function TitleBox() {
           selectedBox={selectedBox}
           value={description}
           onChange={handleDesChange}
+          readOnly={disabled}
         />
-        <AnimatedBorderDescSpan />
+        {disabled ? null : <AnimatedBorderDescSpan />}
       </TitleForm>
+      {disabled ? (
+        <>
+          <TitlePreviewDiv />
+          <TitleRequiredP>* 표시는 필수 질문임</TitleRequiredP>
+        </>
+      ) : null}
     </TitleBoxWrap>
   );
 }

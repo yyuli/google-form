@@ -29,6 +29,7 @@ const SelectedBoxLeftColor = styled.div`
   top: 0;
   left: 0;
   border-radius: 8px 0px 0 8px;
+  /* z-index: 1; */
 `;
 const ExpandBorderBottom = keyframes`
   0% {
@@ -88,6 +89,20 @@ const TitleDesInput = styled.input`
     font-size: 14px;
   }
 `;
+const TitlePreviewDiv = styled.div`
+  width: 768px;
+  height: 1px;
+  background-color: #dadce0;
+  position: absolute;
+  left: 0;
+  top: 70%;
+`;
+const TitleRequiredP = styled.p`
+  color: #d93025;
+  font-size: 14px;
+  margin-top: 24px;
+  padding-top: 20px;
+`;
 
 export {
   TitleBoxWrap,
@@ -100,4 +115,6 @@ export {
   AnimatedBorderDescSpan,
   TitleInput,
   TitleDesInput,
+  TitlePreviewDiv,
+  TitleRequiredP,
 };
