@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import circle from "../../assets/images/circle.svg";
 import square from "../../assets/images/square.svg";
 import copy from "../../assets/images/copy.svg";
@@ -36,13 +36,13 @@ import {
 } from "./QuestionBoxStyle";
 import NavigationBox from "../NavigationBox/NavigationBox";
 import { useDispatch } from "react-redux";
-import { increment } from "../../store/clickSlice";
+import { increment, decrement } from "../../store/clickSlice";
 
 export default function QuestionBox({ item, items, setItems, index }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
-  const [questionTitle, setQuestionTitle] = useState("제목 없는 질문");
-  const [questionItem, setQuestionItem] = useState("옵션 1");
+  const [questionTitle, setQuestionTitle] = useState(item.title);
+  const [questionItem, setQuestionItem] = useState(item.items);
   const [options, setOptions] = useState([...item.items]);
   const [hoverState, setHoverState] = useState(options.map(() => false));
   const [showEtcOption, setShowEtcOption] = useState(item.etc);
@@ -93,10 +93,19 @@ export default function QuestionBox({ item, items, setItems, index }) {
     setItems(newItems);
   };
   const removeItem = () => {
-    dispatch(increment());
+    if (items.length - 1 === index) {
+      dispatch(decrement());
+    }
     const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
     setItems(newItems);
   };
+  useEffect(() => {
+    setQuestionTitle(item.title);
+    setSelectedQuestionType(item.type);
+    setOptions([...item.items]);
+    setShowEtcOption(item.etc);
+  }, [items]);
+
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;
     setOptions([...options, newOption]);
