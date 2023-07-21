@@ -38,8 +38,9 @@ import NavigationBox from "../NavigationBox/NavigationBox";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "../../store/clickedIndexSlice";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
+import { setQuestionListItem } from "../../store/questionListItemSlice";
 
-export default function QuestionBox({ item, items, setItems, index }) {
+export default function QuestionBox({ item, index }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
   const [questionTitle, setQuestionTitle] = useState(item.title);
@@ -49,6 +50,7 @@ export default function QuestionBox({ item, items, setItems, index }) {
   const [showEtcOption, setShowEtcOption] = useState(item.etc);
   const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
   const selectedBox = useSelector((state) => state.selectedBox.value);
+  const questionListItem = useSelector((state) => state.questionListItem.value);
   const dispatch = useDispatch();
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
@@ -67,11 +69,11 @@ export default function QuestionBox({ item, items, setItems, index }) {
       required: isActiveToggleSwitch,
     };
     const newItems = [
-      ...items.slice(0, index),
+      ...questionListItem.slice(0, index),
       addItems,
-      ...items.slice(index),
+      ...questionListItem.slice(index),
     ];
-    setItems(newItems);
+    dispatch(setQuestionListItem(newItems));
     setShowEtcOption(false);
     setOptions([questionItem]);
     setQuestionTitle("");
@@ -88,25 +90,28 @@ export default function QuestionBox({ item, items, setItems, index }) {
     };
     dispatch(increment());
     const newItems = [
-      ...items.slice(0, index),
+      ...questionListItem.slice(0, index),
       copiedItem,
-      ...items.slice(index),
+      ...questionListItem.slice(index),
     ];
-    setItems(newItems);
+    dispatch(setQuestionListItem(newItems));
   };
   const removeItem = () => {
-    if (items.length - 1 === index) {
+    if (questionListItem.length - 1 === index) {
       dispatch(decrement());
     }
-    const newItems = [...items.slice(0, index), ...items.slice(index + 1)];
-    setItems(newItems);
+    const newItems = [
+      ...questionListItem.slice(0, index),
+      ...questionListItem.slice(index + 1),
+    ];
+    dispatch(setQuestionListItem(newItems));
   };
   useEffect(() => {
     setQuestionTitle(item.title);
     setSelectedQuestionType(item.type);
     setOptions([...item.items]);
     setShowEtcOption(item.etc);
-  }, [items]);
+  }, [questionListItem]);
 
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;

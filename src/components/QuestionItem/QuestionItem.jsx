@@ -22,10 +22,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { setIndex } from "../../store/clickedIndexSlice";
 import QuestionBox from "../QuestionBox/QuestionBox";
 
-export default function QuestionItem({ item, index, items, setItems }) {
+export default function QuestionItem({ item, index }) {
   const [isQuestionItemHovered, setIsQuestionItemHovered] = useState(false);
   const [isModified, setIsModified] = useState(false);
   const clickedIndex = useSelector((state) => state.clickedIndex.value);
+  const questionListItem = useSelector((state) => state.questionListItem.value);
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -40,13 +41,8 @@ export default function QuestionItem({ item, index, items, setItems }) {
   }, [clickedIndex]);
   return (
     <>
-      {isModified || items.length === 1 ? (
-        <QuestionBox
-          item={item}
-          items={items}
-          setItems={setItems}
-          index={index}
-        />
+      {isModified || questionListItem.length === 1 ? (
+        <QuestionBox item={item} index={index} />
       ) : (
         <QuestionItemWrap
           onMouseEnter={() => setIsQuestionItemHovered(true)}

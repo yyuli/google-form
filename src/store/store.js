@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import clickReducer from './clickSlice';
+import clickedIndexReducer from './clickedIndexSlice';
+import questionListItemReducer from './questionListItemSlice';
+import selectedBoxReducer from "./selectedBoxSlice";
 
 export const store = configureStore({
   reducer: {
-    click: clickReducer,
+    clickedIndex: clickedIndexReducer,
+    questionListItem: questionListItemReducer,
+    selectedBox: selectedBoxReducer,
   },
 })
