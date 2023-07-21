@@ -19,13 +19,13 @@ import {
   QuestionListNumberSpan,
 } from "../QuestionBox/QuestionBoxStyle";
 import { useSelector, useDispatch } from "react-redux";
-import { setIndex } from "../../store/clickSlice";
+import { setIndex } from "../../store/clickedIndexSlice";
 import QuestionBox from "../QuestionBox/QuestionBox";
 
 export default function QuestionItem({ item, index, items, setItems }) {
   const [isQuestionItemHovered, setIsQuestionItemHovered] = useState(false);
   const [isModified, setIsModified] = useState(false);
-  const clickedIndex = useSelector((state) => state.click.value);
+  const clickedIndex = useSelector((state) => state.clickedIndex.value);
   const dispatch = useDispatch();
 
   const handleClick = () => {

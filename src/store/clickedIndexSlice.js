@@ -4,12 +4,15 @@ const initialState = {
   value: 0,
 }
 
-export const clickSlice = createSlice({
-  name: 'click',
+export const clickedIndexSlice = createSlice({
+  name: 'clickedIndex',
   initialState,
   reducers: {
     increment: (state) => {
       state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
     },
     setIndex: (state, action) => {
       state.value = action.payload;
@@ -17,5 +20,5 @@ export const clickSlice = createSlice({
   },
 })
 
-export const { increment, setIndex } = clickSlice.actions
-export default clickSlice.reducer
+export const { increment, decrement, setIndex } = clickedIndexSlice.actions
+export default clickedIndexSlice.reducer

@@ -36,7 +36,7 @@ import {
 } from "./QuestionBoxStyle";
 import NavigationBox from "../NavigationBox/NavigationBox";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement } from "../../store/clickSlice";
+import { increment, decrement } from "../../store/clickedIndexSlice";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
 
 export default function QuestionBox({ item, items, setItems, index }) {
