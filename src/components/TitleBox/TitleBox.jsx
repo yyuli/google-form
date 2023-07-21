@@ -9,9 +9,12 @@ import {
   TitleInput,
   TitleDesInput,
 } from "./TitleBoxStyle";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedBox } from "../../store/selectedBoxSlice";
 
 export default function TitleBox() {
-  const [isClicked, setIsClicked] = useState(false);
+  const selectedBox = useSelector((state) => state.selectedBox.value);
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(
     localStorage.getItem("title") || "제목 없는 설문지"
   );
@@ -34,12 +37,12 @@ export default function TitleBox() {
   return (
     <TitleBoxWrap
       onClick={() => {
-        setIsClicked(true);
+        dispatch(setSelectedBox("TitleBox"));
       }}
     >
       <h2 className="a11y-hidden">설문지명</h2>
       <TitleBoxTopColor />
-      {isClicked ? <SelectedBoxLeftColor /> : null}
+      {selectedBox === "TitleBox" ? <SelectedBoxLeftColor /> : null}
       <TitleForm>
         <label htmlFor="title" className="a11y-hidden">
           설문지 제목
@@ -48,7 +51,7 @@ export default function TitleBox() {
           id="title"
           type="text"
           placeholder="설문지 제목"
-          isClicked={isClicked}
+          selectedBox={selectedBox}
           value={title}
           onChange={handleTitleChange}
         />
@@ -59,7 +62,7 @@ export default function TitleBox() {
         <TitleDesInput
           id="description"
           placeholder="설문지 설명"
-          isClicked={isClicked}
+          selectedBox={selectedBox}
           value={description}
           onChange={handleDesChange}
         />

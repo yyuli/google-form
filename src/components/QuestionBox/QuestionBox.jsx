@@ -35,8 +35,9 @@ import {
   ToggleButtonSpan,
 } from "./QuestionBoxStyle";
 import NavigationBox from "../NavigationBox/NavigationBox";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "../../store/clickSlice";
+import { setSelectedBox } from "../../store/selectedBoxSlice";
 
 export default function QuestionBox({ item, items, setItems, index }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
@@ -47,6 +48,7 @@ export default function QuestionBox({ item, items, setItems, index }) {
   const [hoverState, setHoverState] = useState(options.map(() => false));
   const [showEtcOption, setShowEtcOption] = useState(item.etc);
   const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
+  const selectedBox = useSelector((state) => state.selectedBox.value);
   const dispatch = useDispatch();
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
@@ -137,11 +139,15 @@ export default function QuestionBox({ item, items, setItems, index }) {
   ];
   return (
     <>
-      <QuestionBoxWrap>
+      <QuestionBoxWrap
+        onClick={() => {
+          dispatch(setSelectedBox("QuestionBox"));
+        }}
+      >
         <NavigationBox addItem={addItem} />
         <h2 className="a11y-hidden">질문</h2>
         <QuestionDragBtn />
-        <SelectedBoxLeftColor />
+        {selectedBox === "QuestionBox" ? <SelectedBoxLeftColor /> : null}
         <QuestionTitleSection>
           <AnimateQuestionTitleDiv>
             <QuestionTitleInput

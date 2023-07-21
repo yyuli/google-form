@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import square from "../../assets/images/square.svg";
 import circle from "../../assets/images/circle.svg";
-import { QuestionDragBtn } from "../QuestionBox/QuestionBoxStyle";
 import {
   QuestionItemWrap,
   QuestionItemDragDiv,
@@ -12,6 +11,7 @@ import {
   QuestionItemRequiredSpan,
 } from "./QuestionItemStyle";
 import {
+  QuestionDragBtn,
   QuestionListEtcDiv,
   QuestionListInput,
   QuestionListShortInput,
