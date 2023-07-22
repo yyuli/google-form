@@ -98,14 +98,16 @@ export default function QuestionBox({ item, index }) {
     dispatch(setQuestionListItem(newItems));
   };
   const removeItem = () => {
-    if (questionListItem.length - 1 === index) {
-      dispatch(decrement());
+    if (questionListItem.length > 1) {
+      if (questionListItem.length - 1 === index) {
+        dispatch(decrement());
+      }
+      const newItems = [
+        ...questionListItem.slice(0, index),
+        ...questionListItem.slice(index + 1),
+      ];
+      dispatch(setQuestionListItem(newItems));
     }
-    const newItems = [
-      ...questionListItem.slice(0, index),
-      ...questionListItem.slice(index + 1),
-    ];
-    dispatch(setQuestionListItem(newItems));
   };
   useEffect(() => {
     setQuestionTitle(item.title);
