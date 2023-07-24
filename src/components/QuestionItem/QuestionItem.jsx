@@ -58,67 +58,66 @@ export default function QuestionItem({ item, index }) {
               <QuestionItemRequiredSpan>*</QuestionItemRequiredSpan>
             )}
           </QuestionItemTitle>
-          <ul>
-            {item.type === "단답형" && (
-              <QuestionListShortInput
-                type="text"
-                placeholder="단답형 텍스트"
-                readOnly
-              />
-            )}
-            {item.type === "장문형" && (
-              <QuestionListLongInput
-                type="text"
-                placeholder="장문형 텍스트"
-                readOnly
-              />
-            )}
-            {item.type === "객관식 질문" &&
-              item.items.map((item, index) => (
+          {item.type === "단답형" && (
+            <QuestionListShortInput
+              type="text"
+              placeholder="단답형 텍스트"
+              readOnly
+            />
+          )}
+          {item.type === "장문형" && (
+            <QuestionListLongInput
+              type="text"
+              placeholder="장문형 텍스트"
+              readOnly
+            />
+          )}
+          {item.type === "객관식 질문" && (
+            <ul>
+              {item.items.map((item, index) => (
                 <QuestionItemLi key={index}>
                   <img src={circle} alt="빈 라디오 버튼" />
                   <QuestionItemP>{item}</QuestionItemP>
                 </QuestionItemLi>
               ))}
-            {item.type === "객관식 질문" && item.etc && (
-              <QuestionListWrapDiv>
-                <img src={circle} alt="빈 라디오 버튼" />
-                <QuestionListEtcDiv>
-                  <QuestionListInput
-                    type="text"
-                    placeholder="기타..."
-                    readOnly
-                  />
-                </QuestionListEtcDiv>
-              </QuestionListWrapDiv>
-            )}
-            {item.type === "체크박스" &&
-              item.items.map((item, index) => (
+            </ul>
+          )}
+          {item.type === "객관식 질문" && item.etc && (
+            <QuestionListWrapDiv>
+              <img src={circle} alt="빈 라디오 버튼" />
+              <QuestionListEtcDiv>
+                <QuestionListInput type="text" placeholder="기타..." readOnly />
+              </QuestionListEtcDiv>
+            </QuestionListWrapDiv>
+          )}
+          {item.type === "체크박스" && (
+            <ul>
+              {item.items.map((item, index) => (
                 <QuestionItemLi key={index}>
                   <img src={square} alt="빈 라디오 버튼" />
                   <QuestionItemP>{item}</QuestionItemP>
                 </QuestionItemLi>
               ))}
-            {item.type === "체크박스" && item.etc && (
-              <QuestionListWrapDiv>
-                <img src={square} alt="빈 라디오 버튼" />
-                <QuestionListEtcDiv>
-                  <QuestionListInput
-                    type="text"
-                    placeholder="기타..."
-                    readOnly
-                  />
-                </QuestionListEtcDiv>
-              </QuestionListWrapDiv>
-            )}
-            {item.type === "드롭다운" &&
-              item.items.map((item, index) => (
+            </ul>
+          )}
+          {item.type === "체크박스" && item.etc && (
+            <QuestionListWrapDiv>
+              <img src={square} alt="빈 라디오 버튼" />
+              <QuestionListEtcDiv>
+                <QuestionListInput type="text" placeholder="기타..." readOnly />
+              </QuestionListEtcDiv>
+            </QuestionListWrapDiv>
+          )}
+          {item.type === "드롭다운" && (
+            <ul>
+              {item.items.map((item, index) => (
                 <QuestionItemLi key={index}>
                   <QuestionListNumberSpan>{index + 1}</QuestionListNumberSpan>
                   <QuestionItemP>{item}</QuestionItemP>
                 </QuestionItemLi>
               ))}
-          </ul>
+            </ul>
+          )}
         </QuestionItemWrap>
       )}
     </>

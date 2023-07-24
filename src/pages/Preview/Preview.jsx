@@ -48,6 +48,7 @@ export default function Preview() {
 
   return (
     <>
+      <h1 className="a11y-hidden">구글 설문지</h1>
       <TitleBox disabled></TitleBox>
       {questionListItem
         .slice(0, questionListItem.length - 1)
@@ -73,18 +74,21 @@ export default function Preview() {
                   <AnimatedPreviewLongSpan />
                 </AnimatePreviewLongDiv>
               )}
-              {item.type === "객관식 질문" &&
-                item.items.map((item, index) => {
-                  const itemId = `${randomId()}`;
-                  return (
-                    <QuestionItemLi key={index}>
-                      <PreviewCustomRadio type="checkbox" id={itemId} />
-                      <PreviewCustomLabel htmlFor={itemId}>
-                        {item}
-                      </PreviewCustomLabel>
-                    </QuestionItemLi>
-                  );
-                })}
+              {item.type === "객관식 질문" && (
+                <ul>
+                  {item.items.map((item, index) => {
+                    const itemId = `${randomId()}`;
+                    return (
+                      <QuestionItemLi key={index}>
+                        <PreviewCustomRadio type="checkbox" id={itemId} />
+                        <PreviewCustomLabel htmlFor={itemId}>
+                          {item}
+                        </PreviewCustomLabel>
+                      </QuestionItemLi>
+                    );
+                  })}
+                </ul>
+              )}
               {item.type === "객관식 질문" && item.etc && (
                 <QuestionListWrapDiv>
                   <PreviewCustomRadio
@@ -109,18 +113,21 @@ export default function Preview() {
                   </PreviewEtcDiv>
                 </QuestionListWrapDiv>
               )}
-              {item.type === "체크박스" &&
-                item.items.map((item, index) => {
-                  const itemId = `${randomId()}`;
-                  return (
-                    <QuestionItemLi key={index}>
-                      <PreviewCustomInput type="checkbox" id={itemId} />
-                      <PreviewCustomLabel htmlFor={itemId}>
-                        {item}
-                      </PreviewCustomLabel>
-                    </QuestionItemLi>
-                  );
-                })}
+              {item.type === "체크박스" && (
+                <ul>
+                  {item.items.map((item, index) => {
+                    const itemId = `${randomId()}`;
+                    return (
+                      <QuestionItemLi key={index}>
+                        <PreviewCustomInput type="checkbox" id={itemId} />
+                        <PreviewCustomLabel htmlFor={itemId}>
+                          {item}
+                        </PreviewCustomLabel>
+                      </QuestionItemLi>
+                    );
+                  })}
+                </ul>
+              )}
               {item.type === "체크박스" && item.etc && (
                 <QuestionListWrapDiv>
                   <PreviewCustomInput
