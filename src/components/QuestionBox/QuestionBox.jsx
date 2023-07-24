@@ -157,10 +157,11 @@ export default function QuestionBox({ item, index }) {
         }}
       >
         <NavigationBox addItem={addItem} handlePreview={handlePreview} />
-        <h2 className="a11y-hidden">질문</h2>
+        <h2 className="a11y-hidden">설문지 작성칸</h2>
         <QuestionDragBtn />
         {selectedBox === "QuestionBox" ? <SelectedBoxLeftColor /> : null}
         <QuestionTitleSection>
+          <h3 className="a11y-hidden">설문지 질문</h3>
           <AnimateQuestionTitleDiv>
             <QuestionTitleInput
               type="text"
@@ -187,6 +188,7 @@ export default function QuestionBox({ item, index }) {
           </QuestionTypeSelect>
         </QuestionTitleSection>
         <QuestionListSection>
+          <h3 className="a11y-hidden">설문지 내용</h3>
           {selectedQuestionType === "단답형" && (
             <QuestionListShortInput
               type="text"

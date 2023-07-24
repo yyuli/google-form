@@ -42,7 +42,7 @@ export default function TitleBox({ disabled }) {
 
   return (
     <TitleBoxWrap onClick={handleClick}>
-      <h2 className="a11y-hidden">설문지명</h2>
+      <h2 className="a11y-hidden">설문지 제목</h2>
       <TitleBoxTopColor />
       {selectedBox === "TitleBox" ? <SelectedBoxLeftColor /> : null}
       <TitleForm>
