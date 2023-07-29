@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+export const initialState = {
   value: [{
     title: "제목 없는 질문",
     items: ["옵션 1"],

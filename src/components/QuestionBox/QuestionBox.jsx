@@ -38,7 +38,10 @@ import NavigationBox from "../NavigationBox/NavigationBox";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "../../store/clickedIndexSlice";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
-import { setQuestionListItem } from "../../store/questionListItemSlice";
+import {
+  initialState,
+  setQuestionListItem,
+} from "../../store/questionListItemSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function QuestionBox({ item, index }) {
@@ -52,15 +55,19 @@ export default function QuestionBox({ item, index }) {
   const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
   const selectedBox = useSelector((state) => state.selectedBox.value);
   const questionListItem = useSelector((state) => state.questionListItem.value);
-  const dispatch = useDispatch();
+  const [isEdited, setIsEdited] = useState(false);
+
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
+    setIsEdited(true);
   };
   const handleQuestionItem = (e, index) => {
     const newOptions = [...options];
     newOptions[index] = e.target.value;
     setOptions(newOptions);
+    setIsEdited(true);
   };
+  const dispatch = useDispatch();
   const addItem = () => {
     const addItems = {
       title: questionTitle,
@@ -72,13 +79,10 @@ export default function QuestionBox({ item, index }) {
     const newItems = [
       ...questionListItem.slice(0, index),
       addItems,
-      ...questionListItem.slice(index),
+      ...initialState.value,
+      ...questionListItem.slice(index + 1),
     ];
     dispatch(setQuestionListItem(newItems));
-    setShowEtcOption(false);
-    setOptions([questionItem]);
-    setQuestionTitle("");
-    setSelectedQuestionType("객관식 질문");
     dispatch(increment());
   };
   const copyItem = () => {
@@ -98,16 +102,14 @@ export default function QuestionBox({ item, index }) {
     dispatch(setQuestionListItem(newItems));
   };
   const removeItem = () => {
-    if (questionListItem.length > 1) {
-      if (questionListItem.length - 1 === index) {
-        dispatch(decrement());
-      }
-      const newItems = [
-        ...questionListItem.slice(0, index),
-        ...questionListItem.slice(index + 1),
-      ];
-      dispatch(setQuestionListItem(newItems));
+    if (questionListItem.length - 1 === index) {
+      dispatch(decrement());
     }
+    const newItems = [
+      ...questionListItem.slice(0, index),
+      ...questionListItem.slice(index + 1),
+    ];
+    dispatch(setQuestionListItem(newItems));
   };
   useEffect(() => {
     setQuestionTitle(item.title);
@@ -119,11 +121,13 @@ export default function QuestionBox({ item, index }) {
   const addOption = () => {
     const newOption = `옵션 ${options.length + 1}`;
     setOptions([...options, newOption]);
+    setIsEdited(true);
   };
   const removeOption = (index) => {
     const removedOption = [...options];
     removedOption.splice(index, 1);
     setOptions(removedOption);
+    setIsEdited(true);
   };
   const handleMouseEnter = (index) => {
     setHoverState((prev) => prev.map((_, i) => (i === index ? true : false)));
@@ -133,10 +137,12 @@ export default function QuestionBox({ item, index }) {
   };
   const handleShowEtc = (state) => {
     setShowEtcOption(state);
+    setIsEdited(true);
   };
   const handleClick = (type) => {
     setSelectedQuestionType(type);
     setIsActiveTypeSelect(!isActiveTypeSelect);
+    setIsEdited(true);
   };
   const navigate = useNavigate();
   const handlePreview = () => {
@@ -149,6 +155,27 @@ export default function QuestionBox({ item, index }) {
     { name: "체크박스", id: "check" },
     { name: "드롭다운", id: "drop" },
   ];
+  const editItem = () => {
+    const editItems = {
+      title: questionTitle,
+      items: [...options],
+      etc: showEtcOption,
+      type: selectedQuestionType,
+      required: isActiveToggleSwitch,
+    };
+    const newItems = [
+      ...questionListItem.slice(0, index),
+      editItems,
+      ...questionListItem.slice(index + 1),
+    ];
+    dispatch(setQuestionListItem(newItems));
+  };
+  useEffect(() => {
+    if (isEdited) {
+      editItem();
+      setIsEdited(false);
+    }
+  }, [isEdited]);
   return (
     <>
       <QuestionBoxWrap
@@ -348,12 +375,18 @@ export default function QuestionBox({ item, index }) {
             </QuestionListIconBtn>
             <QuestionListLineSpan />
             <ToggleRequiredSpan
-              onClick={() => setIsActiveToggleSwitch(!isActiveToggleSwitch)}
+              onClick={() => {
+                setIsActiveToggleSwitch(!isActiveToggleSwitch);
+                setIsEdited(true);
+              }}
             >
               필수
             </ToggleRequiredSpan>
             <ToggleSwitchDiv
-              onClick={() => setIsActiveToggleSwitch(!isActiveToggleSwitch)}
+              onClick={() => {
+                setIsActiveToggleSwitch(!isActiveToggleSwitch);
+                setIsEdited(true);
+              }}
               className={isActiveToggleSwitch || item.required ? "active" : ""}
             >
               <ToggleButtonSpan />
