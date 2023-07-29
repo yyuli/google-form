@@ -13,22 +13,12 @@ import {
 } from "./TitleBoxStyle";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
+import { setTitle, setDescription } from "../../store/surveySlice";
 
 export default function TitleBox({ disabled }) {
   const selectedBox = useSelector((state) => state.selectedBox.value);
+  const { title, description } = useSelector((state) => state.survey);
   const dispatch = useDispatch();
-  const [title, setTitle] = useState(
-    localStorage.getItem("title") || "제목 없는 설문지"
-  );
-  const [description, setDescription] = useState(
-    localStorage.getItem("description") || ""
-  );
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleDesChange = (e) => {
-    setDescription(e.target.value);
-  };
   const handleClick = () => {
     if (disabled) return;
     dispatch(setSelectedBox("TitleBox"));
@@ -55,7 +45,7 @@ export default function TitleBox({ disabled }) {
           placeholder="설문지 제목"
           selectedBox={selectedBox}
           value={title}
-          onChange={handleTitleChange}
+          onChange={(e) => dispatch(setTitle(e.target.value))}
           readOnly={disabled}
         />
         {disabled ? null : <AnimatedBorderTitleSpan />}
@@ -67,7 +57,7 @@ export default function TitleBox({ disabled }) {
           placeholder="설문지 설명"
           selectedBox={selectedBox}
           value={description}
-          onChange={handleDesChange}
+          onChange={(e) => dispatch(setDescription(e.target.value))}
           readOnly={disabled}
         />
         {disabled ? null : <AnimatedBorderDescSpan />}
