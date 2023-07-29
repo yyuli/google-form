@@ -50,134 +50,132 @@ export default function Preview() {
     <>
       <h1 className="a11y-hidden">구글 설문지</h1>
       <TitleBox disabled></TitleBox>
-      {questionListItem
-        .slice(0, questionListItem.length - 1)
-        .map((item, index) => {
-          return (
-            <QuestionItemWrap key={index}>
-              <QuestionItemDragDiv></QuestionItemDragDiv>
-              <QuestionItemTitle>
-                {item.title === "" ? "질문" : item.title}
-                {item.required && (
-                  <QuestionItemRequiredSpan>*</QuestionItemRequiredSpan>
-                )}
-              </QuestionItemTitle>
-              {item.type === "단답형" && (
-                <AnimatePreviewShortDiv>
-                  <PreviewShortInput type="text" placeholder="내 답변" />
-                  <AnimatedPreviewShortSpan />
-                </AnimatePreviewShortDiv>
+      {questionListItem.map((item, index) => {
+        return (
+          <QuestionItemWrap key={index}>
+            <QuestionItemDragDiv></QuestionItemDragDiv>
+            <QuestionItemTitle>
+              {item.title === "" ? "질문" : item.title}
+              {item.required && (
+                <QuestionItemRequiredSpan>*</QuestionItemRequiredSpan>
               )}
-              {item.type === "장문형" && (
-                <AnimatePreviewLongDiv>
-                  <PreviewLongInput type="text" placeholder="내 답변" />
-                  <AnimatedPreviewLongSpan />
-                </AnimatePreviewLongDiv>
-              )}
-              {item.type === "객관식 질문" && (
-                <ul>
-                  {item.items.map((item, index) => {
-                    const itemId = `${randomId()}`;
-                    return (
-                      <QuestionItemLi key={index}>
-                        <PreviewCustomRadio type="checkbox" id={itemId} />
-                        <PreviewCustomLabel htmlFor={itemId}>
-                          {item}
-                        </PreviewCustomLabel>
-                      </QuestionItemLi>
-                    );
-                  })}
-                </ul>
-              )}
-              {item.type === "객관식 질문" && item.etc && (
-                <QuestionListWrapDiv>
-                  <PreviewCustomRadio
-                    type="checkbox"
-                    id="radio-etc"
-                    checked={checkedRadio}
-                  />
-                  <PreviewEtcDiv>
-                    <PreviewEtcLabel
-                      htmlFor="radio-etc"
+            </QuestionItemTitle>
+            {item.type === "단답형" && (
+              <AnimatePreviewShortDiv>
+                <PreviewShortInput type="text" placeholder="내 답변" />
+                <AnimatedPreviewShortSpan />
+              </AnimatePreviewShortDiv>
+            )}
+            {item.type === "장문형" && (
+              <AnimatePreviewLongDiv>
+                <PreviewLongInput type="text" placeholder="내 답변" />
+                <AnimatedPreviewLongSpan />
+              </AnimatePreviewLongDiv>
+            )}
+            {item.type === "객관식 질문" && (
+              <ul>
+                {item.items.map((item, index) => {
+                  const itemId = `${randomId()}`;
+                  return (
+                    <QuestionItemLi key={index}>
+                      <PreviewCustomRadio type="checkbox" id={itemId} />
+                      <PreviewCustomLabel htmlFor={itemId}>
+                        {item}
+                      </PreviewCustomLabel>
+                    </QuestionItemLi>
+                  );
+                })}
+              </ul>
+            )}
+            {item.type === "객관식 질문" && item.etc && (
+              <QuestionListWrapDiv>
+                <PreviewCustomRadio
+                  type="checkbox"
+                  id="radio-etc"
+                  checked={checkedRadio}
+                />
+                <PreviewEtcDiv>
+                  <PreviewEtcLabel
+                    htmlFor="radio-etc"
+                    onClick={handleCheckboxEtcClickRadio}
+                  >
+                    기타:
+                  </PreviewEtcLabel>
+                  <AnimatePreviewEtcDiv>
+                    <PreviewEtcInput
+                      type="text"
                       onClick={handleCheckboxEtcClickRadio}
-                    >
-                      기타:
-                    </PreviewEtcLabel>
-                    <AnimatePreviewEtcDiv>
-                      <PreviewEtcInput
-                        type="text"
-                        onClick={handleCheckboxEtcClickRadio}
-                      />
-                      <AnimatedPreviewEtcSpan />
-                    </AnimatePreviewEtcDiv>
-                  </PreviewEtcDiv>
-                </QuestionListWrapDiv>
-              )}
-              {item.type === "체크박스" && (
-                <ul>
-                  {item.items.map((item, index) => {
-                    const itemId = `${randomId()}`;
-                    return (
-                      <QuestionItemLi key={index}>
-                        <PreviewCustomInput type="checkbox" id={itemId} />
-                        <PreviewCustomLabel htmlFor={itemId}>
-                          {item}
-                        </PreviewCustomLabel>
-                      </QuestionItemLi>
-                    );
-                  })}
-                </ul>
-              )}
-              {item.type === "체크박스" && item.etc && (
-                <QuestionListWrapDiv>
-                  <PreviewCustomInput
-                    type="checkbox"
-                    id="checkbox-etc"
-                    checked={checked}
-                  />
-                  <PreviewEtcDiv>
-                    <PreviewEtcLabel
-                      htmlFor="checkbox-etc"
+                    />
+                    <AnimatedPreviewEtcSpan />
+                  </AnimatePreviewEtcDiv>
+                </PreviewEtcDiv>
+              </QuestionListWrapDiv>
+            )}
+            {item.type === "체크박스" && (
+              <ul>
+                {item.items.map((item, index) => {
+                  const itemId = `${randomId()}`;
+                  return (
+                    <QuestionItemLi key={index}>
+                      <PreviewCustomInput type="checkbox" id={itemId} />
+                      <PreviewCustomLabel htmlFor={itemId}>
+                        {item}
+                      </PreviewCustomLabel>
+                    </QuestionItemLi>
+                  );
+                })}
+              </ul>
+            )}
+            {item.type === "체크박스" && item.etc && (
+              <QuestionListWrapDiv>
+                <PreviewCustomInput
+                  type="checkbox"
+                  id="checkbox-etc"
+                  checked={checked}
+                />
+                <PreviewEtcDiv>
+                  <PreviewEtcLabel
+                    htmlFor="checkbox-etc"
+                    onClick={handleCheckboxEtcClick}
+                  >
+                    기타:
+                  </PreviewEtcLabel>
+                  <AnimatePreviewEtcDiv>
+                    <PreviewEtcInput
+                      type="text"
                       onClick={handleCheckboxEtcClick}
-                    >
-                      기타:
-                    </PreviewEtcLabel>
-                    <AnimatePreviewEtcDiv>
-                      <PreviewEtcInput
-                        type="text"
-                        onClick={handleCheckboxEtcClick}
-                      />
-                      <AnimatedPreviewEtcSpan />
-                    </AnimatePreviewEtcDiv>
-                  </PreviewEtcDiv>
-                </QuestionListWrapDiv>
-              )}
-              {item.type === "드롭다운" && (
-                <QuestionTypeSelect
-                  onClick={() => setIsActive(!isActive)}
-                  className={isActive ? "active" : ""}
-                >
-                  <button type="button">{selectedOption}</button>
-                  <ul>
-                    {item.items.map((item, index) => (
-                      <li key={index}>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedOption(item);
-                            setIsActive(false);
-                          }}
-                        >
-                          {item}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </QuestionTypeSelect>
-              )}
-            </QuestionItemWrap>
-          );
-        })}
+                    />
+                    <AnimatedPreviewEtcSpan />
+                  </AnimatePreviewEtcDiv>
+                </PreviewEtcDiv>
+              </QuestionListWrapDiv>
+            )}
+            {item.type === "드롭다운" && (
+              <QuestionTypeSelect
+                onClick={() => setIsActive(!isActive)}
+                className={isActive ? "active" : ""}
+              >
+                <button type="button">{selectedOption}</button>
+                <ul>
+                  {item.items.map((item, index) => (
+                    <li key={index}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedOption(item);
+                          setIsActive(false);
+                        }}
+                      >
+                        {item}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </QuestionTypeSelect>
+            )}
+          </QuestionItemWrap>
+        );
+      })}
       <BtnWrap>
         <SubmitBtn type="submit">제출</SubmitBtn>
         <ResetBtn type="button">양식 지우기</ResetBtn>
