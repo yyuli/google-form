@@ -18,6 +18,7 @@ import {
   initialState,
   setQuestionListItem,
 } from "../../store/questionListItemSlice";
+import { increment } from "../../store/clickedIndexSlice";
 import NavigationBox from "../NavigationBox/NavigationBox";
 
 export default function TitleBox({ disabled }) {
@@ -31,6 +32,7 @@ export default function TitleBox({ disabled }) {
   };
   const addItem = () => {
     dispatch(setQuestionListItem(initialState.value));
+    dispatch(increment());
   };
   useEffect(() => {
     localStorage.setItem("title", title);
