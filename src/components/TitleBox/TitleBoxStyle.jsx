@@ -58,10 +58,10 @@ const AnimatedBorderDescSpan = styled.span`
   bottom: 0;
 `;
 const CommonInput = css`
-  border-bottom: ${({ selectedBox }) =>
-    selectedBox === "TitleBox" ? "1px solid #0000001f" : ""};
-  padding-top: ${({ selectedBox }) =>
-    selectedBox === "TitleBox" ? "1px" : ""};
+  border-bottom: ${({ selectedBox, readOnly }) =>
+    selectedBox === "TitleBox" && !readOnly ? "1px solid #0000001f" : ""};
+  padding-top: ${({ selectedBox, readOnly }) =>
+    selectedBox === "TitleBox" && !readOnly ? "1px" : ""};
   &:focus + ${AnimatedBorderTitleSpan}, &:focus + ${AnimatedBorderDescSpan} {
     animation: ${ExpandBorderBottom} 0.4s forwards;
   }
