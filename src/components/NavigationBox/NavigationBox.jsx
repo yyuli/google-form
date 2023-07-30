@@ -2,8 +2,13 @@ import React from "react";
 import add from "../../assets/images/add.svg";
 import show from "../../assets/images/show.svg";
 import { NavigationBoxWrap } from "./NavigationBoxStyle";
+import { useNavigate } from "react-router-dom";
 
-export default function NavigationBox({ addItem, handlePreview }) {
+export default function NavigationBox({ addItem }) {
+  const navigate = useNavigate();
+  const handlePreview = () => {
+    navigate("/preview");
+  };
   return (
     <NavigationBoxWrap>
       <h2 className="a11y-hidden">내비게이션 바</h2>
