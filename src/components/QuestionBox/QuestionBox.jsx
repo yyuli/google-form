@@ -33,7 +33,7 @@ import {
 import QuestionDropItem from "../QuestionDropItem/QuestionDropItem";
 import { DragDropContext } from "react-beautiful-dnd";
 
-export default function QuestionBox({ item, index }) {
+export default function QuestionBox({ item, index, provided }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
   const [questionTitle, setQuestionTitle] = useState(item.title);
@@ -153,6 +153,9 @@ export default function QuestionBox({ item, index }) {
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <QuestionBoxWrap
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
           onClick={() => {
             dispatch(setSelectedBox("QuestionBox"));
           }}
