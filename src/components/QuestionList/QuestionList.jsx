@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { setQuestionListItem } from "../../store/questionListItemSlice";
 import { useDispatch } from "react-redux";
-import { decrement, increment, setIndex } from "../../store/clickedIndexSlice";
+import { setIndex } from "../../store/clickedIndexSlice";
 
 export default function QuestionList() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
@@ -36,26 +36,13 @@ export default function QuestionList() {
       const [removed] = newQuestionListItem.splice(source.index, 1);
       newQuestionListItem.splice(destination.index, 0, removed);
       dispatch(setQuestionListItem(newQuestionListItem));
-      // if (clickedIndex === source.index) {
-      //   dispatch(setIndex(destination.index));
-      // } else if (
-      //   source.index < clickedIndex &&
-      //   destination.index >= clickedIndex
-      // ) {
-      //   dispatch(decrement());
-      // } else if (
-      //   source.index > clickedIndex &&
-      //   destination.index <= clickedIndex
-      // ) {
-      //   dispatch(increment());
-      // }
       dispatch(setIndex(destination.index));
     },
     [questionListItem, clickedIndex, dispatch]
   );
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppableId">
+      <Droppable droppableId="droppable-1">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {questionListItem.map((item, index) => (

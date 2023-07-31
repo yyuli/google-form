@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   TitleBoxWrap,
   TitleBoxTopColor,
@@ -47,8 +47,6 @@ export default function TitleBox({ disabled }) {
       dispatch(setSelectedBox("QuestionBox"));
     }
   }, [questionListItem, dispatch]);
-
-  console.log(selectedBox);
   return (
     <TitleBoxWrap onClick={handleClick}>
       {!questionListItem.length ? <NavigationBox addItem={addItem} /> : null}
