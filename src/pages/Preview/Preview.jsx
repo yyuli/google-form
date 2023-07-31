@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import TitleBox from "../../components/TitleBox/TitleBox";
 import { useSelector } from "react-redux";
 import {
@@ -48,6 +48,15 @@ export default function Preview() {
       ).length
     ).fill(false)
   );
+  const inputRefs = useRef({
+    shortAnswer: {},
+    longAnswer: {},
+    radioEtc: {},
+    checkboxEtc: {},
+    checkbox: {},
+    checkRadio: {},
+  });
+
   const handleCheckboxEtcClick = (index) => {
     const newCheckedSquare = [...checkedSquare];
     newCheckedSquare[index] = !newCheckedSquare[index];
@@ -63,11 +72,44 @@ export default function Preview() {
   };
   const reset = () => {
     setSelectedOption("선택");
+    setCheckedSquare(
+      new Array(
+        questionListItem.filter(
+          (item) => item.type === "체크박스" && item.etc
+        ).length
+      ).fill(false)
+    );
+    setCheckedRadio(
+      new Array(
+        questionListItem.filter(
+          (item) => item.type === "객관식 질문" && item.etc
+        ).length
+      ).fill(false)
+    );
+    Object.values(inputRefs.current.shortAnswer).forEach(
+      (ref) => ref && (ref.value = "")
+    );
+    Object.values(inputRefs.current.longAnswer).forEach(
+      (ref) => ref && (ref.value = "")
+    );
+    Object.values(inputRefs.current.radioEtc).forEach(
+      (ref) => ref && (ref.value = "")
+    );
+    Object.values(inputRefs.current.checkboxEtc).forEach(
+      (ref) => ref && (ref.value = "")
+    );
+    Object.values(inputRefs.current.checkbox).forEach(
+      (ref) => ref && (ref.checked = false)
+    );
+    Object.values(inputRefs.current.checkRadio).forEach(
+      (ref) => ref && (ref.checked = false)
+    );
   };
+
   return (
     <>
       <h1 className="a11y-hidden">구글 설문지</h1>
-      <TitleBox disabled></TitleBox>
+      <TitleBox disabled />
       {questionListItem.map((item, index) => {
         return (
           <QuestionItemWrap key={index}>
@@ -80,13 +122,21 @@ export default function Preview() {
             </QuestionItemTitle>
             {item.type === "단답형" && (
               <AnimatePreviewShortDiv>
-                <PreviewShortInput type="text" placeholder="내 답변" />
+                <PreviewShortInput
+                  type="text"
+                  placeholder="내 답변"
+                  ref={(el) => (inputRefs.current.shortAnswer[index] = el)}
+                />
                 <AnimatedPreviewShortSpan />
               </AnimatePreviewShortDiv>
             )}
             {item.type === "장문형" && (
               <AnimatePreviewLongDiv>
-                <PreviewLongInput type="text" placeholder="내 답변" />
+                <PreviewLongInput
+                  type="text"
+                  placeholder="내 답변"
+                  ref={(el) => (inputRefs.current.longAnswer[index] = el)}
+                />
                 <AnimatedPreviewLongSpan />
               </AnimatePreviewLongDiv>
             )}
@@ -96,7 +146,14 @@ export default function Preview() {
                   const itemId = `${randomId()}`;
                   return (
                     <QuestionItemLi key={index}>
-                      <PreviewCustomRadio type="checkbox" id={itemId} />
+                      <PreviewCustomRadio
+                        type="checkbox"
+                        id={itemId}
+                        ref={(el) =>
+                          (inputRefs.current.checkRadio[`${itemId}${index}`] =
+                            el)
+                        }
+                      />
                       <PreviewCustomLabel htmlFor={itemId}>
                         {item}
                       </PreviewCustomLabel>
@@ -122,6 +179,7 @@ export default function Preview() {
                     <PreviewEtcInput
                       type="text"
                       onClick={() => handleCheckboxEtcClickRadio(index)}
+                      ref={(el) => (inputRefs.current.radioEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
                   </AnimatePreviewEtcDiv>
@@ -134,7 +192,13 @@ export default function Preview() {
                   const itemId = `${randomId()}`;
                   return (
                     <QuestionItemLi key={index}>
-                      <PreviewCustomInput type="checkbox" id={itemId} />
+                      <PreviewCustomInput
+                        type="checkbox"
+                        id={itemId}
+                        ref={(el) =>
+                          (inputRefs.current.checkbox[`${itemId}${index}`] = el)
+                        }
+                      />
                       <PreviewCustomLabel htmlFor={itemId}>
                         {item}
                       </PreviewCustomLabel>
@@ -160,6 +224,7 @@ export default function Preview() {
                     <PreviewEtcInput
                       type="text"
                       onClick={() => handleCheckboxEtcClick(index)}
+                      ref={(el) => (inputRefs.current.checkboxEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
                   </AnimatePreviewEtcDiv>
