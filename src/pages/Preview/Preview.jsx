@@ -3,11 +3,11 @@ import TitleBox from "../../components/TitleBox/TitleBox";
 import { useSelector } from "react-redux";
 import {
   QuestionItemWrap,
-  QuestionItemDragDiv,
   QuestionItemTitle,
   QuestionItemLi,
   QuestionListWrapDiv,
   QuestionItemRequiredSpan,
+  QuestionItemDragDiv,
 } from "../../components/QuestionItem/QuestionItemStyle";
 import { QuestionTypeSelect } from "../../components/QuestionBox/QuestionBoxStyle";
 import {
@@ -34,18 +34,36 @@ export default function Preview() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
   const [isActive, setIsActive] = useState(false);
   const [selectedOption, setSelectedOption] = useState("선택");
-  const [checked, setChecked] = useState(false);
-  const handleCheckboxEtcClick = () => {
-    setChecked(!checked);
+  const [checkedSquare, setCheckedSquare] = useState(
+    new Array(
+      questionListItem.filter(
+        (item) => item.type === "체크박스" && item.etc
+      ).length
+    ).fill(false)
+  );
+  const [checkedRadio, setCheckedRadio] = useState(
+    new Array(
+      questionListItem.filter(
+        (item) => item.type === "객관식 질문" && item.etc
+      ).length
+    ).fill(false)
+  );
+  const handleCheckboxEtcClick = (index) => {
+    const newCheckedSquare = [...checkedSquare];
+    newCheckedSquare[index] = !newCheckedSquare[index];
+    setCheckedSquare(newCheckedSquare);
   };
-  const [checkedRadio, setCheckedRadio] = useState(false);
-  const handleCheckboxEtcClickRadio = () => {
-    setCheckedRadio(!checkedRadio);
+  const handleCheckboxEtcClickRadio = (index) => {
+    const newCheckedRadio = [...checkedRadio];
+    newCheckedRadio[index] = !newCheckedRadio[index];
+    setCheckedRadio(newCheckedRadio);
   };
   const randomId = () => {
     return "_" + Math.random().toString(36).substring(2, 9);
   };
-
+  const reset = () => {
+    setSelectedOption("선택");
+  };
   return (
     <>
       <h1 className="a11y-hidden">구글 설문지</h1>
@@ -53,7 +71,7 @@ export default function Preview() {
       {questionListItem.map((item, index) => {
         return (
           <QuestionItemWrap key={index}>
-            <QuestionItemDragDiv></QuestionItemDragDiv>
+            <QuestionItemDragDiv />
             <QuestionItemTitle>
               {item.title === "" ? "질문" : item.title}
               {item.required && (
@@ -91,20 +109,19 @@ export default function Preview() {
               <QuestionListWrapDiv>
                 <PreviewCustomRadio
                   type="checkbox"
-                  id="radio-etc"
-                  checked={checkedRadio}
+                  checked={checkedRadio[index]}
+                  onChange={() => handleCheckboxEtcClickRadio(index)}
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel
-                    htmlFor="radio-etc"
-                    onClick={handleCheckboxEtcClickRadio}
+                    onClick={() => handleCheckboxEtcClickRadio(index)}
                   >
                     기타:
                   </PreviewEtcLabel>
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      onClick={handleCheckboxEtcClickRadio}
+                      onClick={() => handleCheckboxEtcClickRadio(index)}
                     />
                     <AnimatedPreviewEtcSpan />
                   </AnimatePreviewEtcDiv>
@@ -130,20 +147,19 @@ export default function Preview() {
               <QuestionListWrapDiv>
                 <PreviewCustomInput
                   type="checkbox"
-                  id="checkbox-etc"
-                  checked={checked}
+                  checked={checkedSquare[index]}
+                  onChange={() => handleCheckboxEtcClick(index)}
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel
-                    htmlFor="checkbox-etc"
-                    onClick={handleCheckboxEtcClick}
+                    onClick={() => handleCheckboxEtcClick(index)}
                   >
                     기타:
                   </PreviewEtcLabel>
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      onClick={handleCheckboxEtcClick}
+                      onClick={() => handleCheckboxEtcClick(index)}
                     />
                     <AnimatedPreviewEtcSpan />
                   </AnimatePreviewEtcDiv>
@@ -178,7 +194,9 @@ export default function Preview() {
       })}
       <BtnWrap>
         <SubmitBtn type="submit">제출</SubmitBtn>
-        <ResetBtn type="button">양식 지우기</ResetBtn>
+        <ResetBtn type="button" onClick={reset}>
+          양식 지우기
+        </ResetBtn>
       </BtnWrap>
     </>
   );

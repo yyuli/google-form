@@ -100,6 +100,7 @@ const PreviewLongInput = styled(QuestionListLongInput)`
 const BtnWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 12px;
 `;
 const SubmitBtn = styled.button`
   width: 73px;
