@@ -57,7 +57,7 @@ export default function QuestionDropItem({
   };
   return (
     <>
-      <Droppable droppableId="droppable" context={ReactReduxContext}>
+      <Droppable droppableId="droppable-2">
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -70,7 +70,7 @@ export default function QuestionDropItem({
               options.map((item, index) => (
                 <Draggable
                   key={index}
-                  draggableId={`draggable-${index}`}
+                  draggableId={`draggable-2-${index}`}
                   index={index}
                 >
                   {(provided, snapshot) => (
@@ -81,9 +81,14 @@ export default function QuestionDropItem({
                       onMouseLeave={() => handleMouseLeave(index)}
                       key={index}
                     >
-                      {hoverState[index] && (
+                      {/* {hoverState[index] && (
                         <QuestionListDragDiv {...provided.dragHandleProps} />
-                      )}
+                      )} */}
+                      <QuestionListDragDiv
+                        {...provided.dragHandleProps}
+                        isVisible={hoverState[index]}
+                      />
+                      <QuestionListDragDiv {...provided.dragHandleProps} />
                       {selectedQuestionType === "드롭다운" ? (
                         <QuestionListNumberSpan>
                           {index + 1}

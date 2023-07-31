@@ -11,7 +11,6 @@ import {
   QuestionItemRequiredSpan,
 } from "./QuestionItemStyle";
 import {
-  QuestionDragBtn,
   QuestionListEtcDiv,
   QuestionListInput,
   QuestionListShortInput,
@@ -41,7 +40,7 @@ export default function QuestionItem({ item, index }) {
   }, [clickedIndex]);
   return (
     <>
-      <Draggable key={index} draggableId={`draggable-${index}`} index={index}>
+      <Draggable key={index} draggableId={`draggable-1-${index}`} index={index}>
         {(provided) => (
           <>
             {isModified || questionListItem.length === 1 ? (
@@ -53,11 +52,11 @@ export default function QuestionItem({ item, index }) {
                 onMouseEnter={() => setIsQuestionItemHovered(true)}
                 onMouseLeave={() => setIsQuestionItemHovered(false)}
                 onClick={handleClick}
-                isQuestionItemHovered={isQuestionItemHovered}
               >
-                {isQuestionItemHovered && (
-                  <QuestionItemDragDiv {...provided.dragHandleProps} />
-                )}
+                <QuestionItemDragDiv
+                  {...provided.dragHandleProps}
+                  isVisible={isQuestionItemHovered}
+                />
                 <QuestionItemTitle>
                   {item.title === "" ? "질문" : item.title}
                   {item.required && (

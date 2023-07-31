@@ -9,14 +9,14 @@ const QuestionItemWrap = styled.article`
   box-sizing: border-box;
   border: 1px solid #dadce0;
   margin: 12px 0;
-  padding: ${({ isQuestionItemHovered }) =>
-    isQuestionItemHovered ? "0px 24px 24px" : "28px 24px 24px"};
+  padding: 0 24px 24px;
 `;
 const QuestionItemDragDiv = styled.div`
   width: 100%;
   height: 28px;
   background-color: #fff;
   background: url(${dots}) no-repeat center 4px;
+  visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
 `;
 const QuestionItemTitle = styled.h3`
   height: 32px;

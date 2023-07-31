@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import dots from "../../assets/images/dots.svg";
 import select from "../../assets/images/select.svg";
 import remove from "../../assets/images/delete.svg";
@@ -13,15 +13,6 @@ const QuestionBoxWrap = styled.article`
   position: relative;
   border: 1px solid #dadce0;
 `;
-// const CommonDrag = css`
-//   background: url(${dots}) no-repeat center 4px;
-// `;
-// const QuestionDragBtn = styled.button`
-//   width: 100%;
-//   height: 24px;
-//   background: url(${dots}) no-repeat center 4px;
-//   pointer-events: auto;
-// `;
 const QuestionBoxDragDiv = styled.div`
   height: 24px;
   background: url(${dots}) no-repeat center 4px;
@@ -129,16 +120,6 @@ const QuestionListDiv = styled.div`
   position: relative;
   height: 48px;
 `;
-// const QuestionListDragBtn = styled.button`
-//   width: 27px;
-//   height: 27px;
-//   background: url(${dots}) no-repeat center 4px;
-//   position: absolute;
-//   top: 50%;
-//   left: -22px;
-//   transform: translateY(-50%) rotate(90deg);
-//   pointer-events: auto;
-// `;
 const QuestionListDragDiv = styled.div`
   width: 27px;
   height: 27px;
@@ -147,6 +128,7 @@ const QuestionListDragDiv = styled.div`
   top: 50%;
   left: -22px;
   transform: translateY(-50%) rotate(90deg);
+  visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
 `;
 const QuestionListNumberSpan = styled.span`
   font-size: 14px;
@@ -303,14 +285,12 @@ const ToggleButtonSpan = styled.span`
 
 export {
   QuestionBoxWrap,
-  // QuestionDragBtn,
   QuestionTitleSection,
   AnimatedQuestionTitleSpan,
   AnimateQuestionTitleDiv,
   QuestionTitleInput,
   QuestionTypeSelect,
   QuestionListSection,
-  // QuestionListDragBtn,
   QuestionBoxDragDiv,
   QuestionListDragDiv,
   QuestionListNumberSpan,
