@@ -13,14 +13,18 @@ const QuestionBoxWrap = styled.article`
   position: relative;
   border: 1px solid #dadce0;
 `;
-const CommonDrag = css`
-  cursor: move;
-  background: url(${dots}) no-repeat center 4px;
-`;
-const QuestionDragBtn = styled.button`
-  width: 100%;
+// const CommonDrag = css`
+//   background: url(${dots}) no-repeat center 4px;
+// `;
+// const QuestionDragBtn = styled.button`
+//   width: 100%;
+//   height: 24px;
+//   background: url(${dots}) no-repeat center 4px;
+//   pointer-events: auto;
+// `;
+const QuestionBoxDragDiv = styled.div`
   height: 24px;
-  ${CommonDrag};
+  background: url(${dots}) no-repeat center 4px;
 `;
 const QuestionTitleSection = styled.section`
   display: flex;
@@ -125,10 +129,20 @@ const QuestionListDiv = styled.div`
   position: relative;
   height: 48px;
 `;
-const QuestionListDragBtn = styled.button`
+// const QuestionListDragBtn = styled.button`
+//   width: 27px;
+//   height: 27px;
+//   background: url(${dots}) no-repeat center 4px;
+//   position: absolute;
+//   top: 50%;
+//   left: -22px;
+//   transform: translateY(-50%) rotate(90deg);
+//   pointer-events: auto;
+// `;
+const QuestionListDragDiv = styled.div`
   width: 27px;
   height: 27px;
-  ${CommonDrag}
+  background: url(${dots}) no-repeat center 4px;
   position: absolute;
   top: 50%;
   left: -22px;
@@ -289,14 +303,16 @@ const ToggleButtonSpan = styled.span`
 
 export {
   QuestionBoxWrap,
-  QuestionDragBtn,
+  // QuestionDragBtn,
   QuestionTitleSection,
   AnimatedQuestionTitleSpan,
   AnimateQuestionTitleDiv,
   QuestionTitleInput,
   QuestionTypeSelect,
   QuestionListSection,
-  QuestionListDragBtn,
+  // QuestionListDragBtn,
+  QuestionBoxDragDiv,
+  QuestionListDragDiv,
   QuestionListNumberSpan,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,

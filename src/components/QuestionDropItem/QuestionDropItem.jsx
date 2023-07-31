@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   QuestionListDragBtn,
+  QuestionListDragDiv,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,
   QuestionListInput,
@@ -76,12 +77,13 @@ export default function QuestionDropItem({
                     <QuestionListDiv
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      {...provided.dragHandleProps}
                       onMouseEnter={() => handleMouseEnter(index)}
                       onMouseLeave={() => handleMouseLeave(index)}
                       key={index}
                     >
-                      {hoverState[index] && <QuestionListDragBtn />}
+                      {hoverState[index] && (
+                        <QuestionListDragDiv {...provided.dragHandleProps} />
+                      )}
                       {selectedQuestionType === "드롭다운" ? (
                         <QuestionListNumberSpan>
                           {index + 1}

@@ -36,19 +36,20 @@ export default function QuestionList() {
       const [removed] = newQuestionListItem.splice(source.index, 1);
       newQuestionListItem.splice(destination.index, 0, removed);
       dispatch(setQuestionListItem(newQuestionListItem));
-      if (clickedIndex === source.index) {
-        dispatch(setIndex(destination.index));
-      } else if (
-        source.index < clickedIndex &&
-        destination.index >= clickedIndex
-      ) {
-        dispatch(decrement());
-      } else if (
-        source.index > clickedIndex &&
-        destination.index <= clickedIndex
-      ) {
-        dispatch(increment());
-      }
+      // if (clickedIndex === source.index) {
+      //   dispatch(setIndex(destination.index));
+      // } else if (
+      //   source.index < clickedIndex &&
+      //   destination.index >= clickedIndex
+      // ) {
+      //   dispatch(decrement());
+      // } else if (
+      //   source.index > clickedIndex &&
+      //   destination.index <= clickedIndex
+      // ) {
+      //   dispatch(increment());
+      // }
+      dispatch(setIndex(destination.index));
     },
     [questionListItem, clickedIndex, dispatch]
   );

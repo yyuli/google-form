@@ -38,7 +38,6 @@ export default function QuestionItem({ item, index }) {
     } else {
       setIsModified(false);
     }
-    console.log("use!", questionListItem);
   }, [clickedIndex]);
   return (
     <>
@@ -51,14 +50,14 @@ export default function QuestionItem({ item, index }) {
               <QuestionItemWrap
                 ref={provided.innerRef}
                 {...provided.draggableProps}
-                {...provided.dragHandleProps}
                 onMouseEnter={() => setIsQuestionItemHovered(true)}
                 onMouseLeave={() => setIsQuestionItemHovered(false)}
                 onClick={handleClick}
+                isQuestionItemHovered={isQuestionItemHovered}
               >
-                <QuestionItemDragDiv>
-                  {isQuestionItemHovered && <QuestionDragBtn />}
-                </QuestionItemDragDiv>
+                {isQuestionItemHovered && (
+                  <QuestionItemDragDiv {...provided.dragHandleProps} />
+                )}
                 <QuestionItemTitle>
                   {item.title === "" ? "질문" : item.title}
                   {item.required && (

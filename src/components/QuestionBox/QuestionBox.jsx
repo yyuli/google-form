@@ -7,6 +7,7 @@ import { SelectedBoxLeftColor } from "../TitleBox/TitleBoxStyle";
 import {
   QuestionBoxWrap,
   QuestionDragBtn,
+  QuestionBoxDragDiv,
   QuestionTitleSection,
   AnimatedQuestionTitleSpan,
   AnimateQuestionTitleDiv,
@@ -155,14 +156,13 @@ export default function QuestionBox({ item, index, provided }) {
         <QuestionBoxWrap
           ref={provided.innerRef}
           {...provided.draggableProps}
-          {...provided.dragHandleProps}
           onClick={() => {
             dispatch(setSelectedBox("QuestionBox"));
           }}
         >
           <NavigationBox addItem={addItem} />
           <h2 className="a11y-hidden">설문지 작성칸</h2>
-          <QuestionDragBtn />
+          <QuestionBoxDragDiv {...provided.dragHandleProps} />
           {selectedBox === "QuestionBox" ? <SelectedBoxLeftColor /> : null}
           <QuestionTitleSection>
             <h3 className="a11y-hidden">설문지 질문</h3>
