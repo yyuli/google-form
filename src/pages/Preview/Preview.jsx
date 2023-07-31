@@ -32,8 +32,8 @@ import {
 
 export default function Preview() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
-  const [isActive, setIsActive] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("선택");
+  const [isActive, setIsActive] = useState({});
+  const [selectedOption, setSelectedOption] = useState({});
   const [checkedSquare, setCheckedSquare] = useState(
     new Array(
       questionListItem.filter(
@@ -71,7 +71,6 @@ export default function Preview() {
     return "_" + Math.random().toString(36).substring(2, 9);
   };
   const reset = () => {
-    setSelectedOption("선택");
     setCheckedSquare(
       new Array(
         questionListItem.filter(
@@ -104,6 +103,8 @@ export default function Preview() {
     Object.values(inputRefs.current.checkRadio).forEach(
       (ref) => ref && (ref.checked = false)
     );
+    setIsActive({});
+    setSelectedOption({});
   };
 
   return (
@@ -233,18 +234,28 @@ export default function Preview() {
             )}
             {item.type === "드롭다운" && (
               <QuestionTypeSelect
-                onClick={() => setIsActive(!isActive)}
-                className={isActive ? "active" : ""}
+                onClick={() =>
+                  setIsActive(() => ({
+                    [index]: true,
+                  }))
+                }
+                className={isActive[index] ? "active" : ""}
               >
-                <button type="button">{selectedOption}</button>
+                <button type="button">{selectedOption[index] || "선택"}</button>
                 <ul>
-                  {item.items.map((item, index) => (
-                    <li key={index}>
+                  {item.items.map((item, idx) => (
+                    <li key={idx}>
                       <button
                         type="button"
-                        onClick={() => {
-                          setSelectedOption(item);
-                          setIsActive(false);
+                        onClick={(e, prev) => {
+                          e.stopPropagation();
+                          setSelectedOption((prev) => ({
+                            ...prev,
+                            [index]: item,
+                          }));
+                          setIsActive(() => ({
+                            [index]: false,
+                          }));
                         }}
                       >
                         {item}
