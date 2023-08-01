@@ -41,10 +41,17 @@ export default function Preview() {
       (acc, [key, refMap]) => {
         acc[key] = {};
         for (const id in refMap) {
-          if (key === "checkRadio" || key === "checkbox") {
-            acc[key][id] = refMap[id].checked;
+          if (key === "checkRadio" || key === "checkBox") {
+            const [outerIndex, , innerIndex] = id.split("_");
+            const checkboxValue = refMap[id]?.checked;
+            acc[key][outerIndex] = {
+              ...acc[key][outerIndex],
+              [innerIndex]: checkboxValue,
+            };
+          } else if (key === "checkedRadioEtc" || key === "checkedBoxEtc") {
+            acc[key][id] = refMap[id]?.checked;
           } else {
-            acc[key][id] = refMap[id].value;
+            acc[key][id] = refMap[id]?.value;
           }
         }
         return acc;
@@ -73,29 +80,39 @@ export default function Preview() {
       ).length
     ).fill(false)
   );
+
   const inputRefs = useRef({
     shortAnswer: {}, // 단답형
     longAnswer: {}, // 장문형
     radioEtc: {}, // 객관식 질문 기타란
     checkboxEtc: {}, // 체크박스 기타란
-    checkbox: {}, // 체크박스 체크 유무
+    checkBox: {}, // 체크박스 체크 유무
     checkRadio: {}, // 라디오 체크 유무
-    // checkedRadioEtc: {}, // 기타 라디오 체크 유무
-    // checkedBoxEtc: {}, // 기타 체크박스 체크 유무
+    checkedRadioEtc: {}, // 기타 라디오 체크 유무
+    checkedBoxEtc: {}, // 기타 체크박스 체크 유무
   });
-
   const handleCheckboxEtcClick = (index) => {
-    const newCheckedSquare = [...checkedSquare];
-    newCheckedSquare[index] = !newCheckedSquare[index];
-    setCheckedSquare(newCheckedSquare);
+    // const newCheckedSquare = [...checkedSquare];
+    // newCheckedSquare[index] = !newCheckedSquare[index];
+    // setCheckedSquare(newCheckedSquare);
+    setCheckedSquare((prevCheckedSquare) => {
+      const newCheckedSquare = [...prevCheckedSquare];
+      newCheckedSquare[index] = !newCheckedSquare[index];
+      return newCheckedSquare;
+    });
   };
   const handleCheckboxEtcClickRadio = (index) => {
-    const newCheckedRadio = [...checkedRadio];
-    newCheckedRadio[index] = !newCheckedRadio[index];
-    setCheckedRadio(newCheckedRadio);
+    // const newCheckedRadio = [...checkedRadio];
+    // newCheckedRadio[index] = !newCheckedRadio[index];
+    // setCheckedRadio(newCheckedRadio);
+    setCheckedRadio((prevCheckedRadio) => {
+      const newCheckedRadio = [...prevCheckedRadio];
+      newCheckedRadio[index] = !newCheckedRadio[index];
+      return newCheckedRadio;
+    });
   };
   const randomId = () => {
-    return "_" + Math.random().toString(36).substring(2, 9);
+    return "_" + Math.random().toString(36).substring(2, 9) + "_";
   };
   const reset = () => {
     setCheckedSquare(
@@ -124,16 +141,21 @@ export default function Preview() {
     Object.values(inputRefs.current.checkboxEtc).forEach(
       (ref) => ref && (ref.value = "")
     );
-    Object.values(inputRefs.current.checkbox).forEach(
+    Object.values(inputRefs.current.checkBox).forEach(
       (ref) => ref && (ref.checked = false)
     );
     Object.values(inputRefs.current.checkRadio).forEach(
       (ref) => ref && (ref.checked = false)
     );
+    Object.values(inputRefs.current.checkedRadioEtc).forEach(
+      (ref) => ref && (ref.checked = false)
+    );
+    Object.values(inputRefs.current.checkedBoxEtc).forEach(
+      (ref) => ref && (ref.checked = false)
+    );
     setIsActive({});
     setSelectedOption({});
   };
-
   return (
     <>
       <h1 className="a11y-hidden">구글 설문지</h1>
@@ -170,18 +192,17 @@ export default function Preview() {
             )}
             {item.type === "객관식 질문" && (
               <ul>
-                {item.items.map((item, index) => {
+                {item.items.map((item, optionIdx) => {
                   const itemId = `${randomId()}`;
-                  // console.log("id!!!", itemId);
-                  // console.log(`${itemId}${index}`);
                   return (
-                    <QuestionItemLi key={index}>
+                    <QuestionItemLi key={optionIdx}>
                       <PreviewCustomRadio
                         type="checkbox"
                         id={itemId}
                         ref={(el) =>
-                          (inputRefs.current.checkRadio[`${itemId}${index}`] =
-                            el)
+                          (inputRefs.current.checkRadio[
+                            `${index}${itemId}${optionIdx}`
+                          ] = el)
                         }
                       />
                       <PreviewCustomLabel htmlFor={itemId}>
@@ -198,7 +219,7 @@ export default function Preview() {
                   type="checkbox"
                   checked={checkedRadio[index]}
                   onChange={() => handleCheckboxEtcClickRadio(index)}
-                  // ref={(el) => (inputRefs.current.checkedRadioEtc[index] = el)}
+                  ref={(el) => (inputRefs.current.checkedRadioEtc[index] = el)}
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel
@@ -209,7 +230,7 @@ export default function Preview() {
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      // onClick={() => handleCheckboxEtcClickRadio(index)}
+                      onClick={() => handleCheckboxEtcClickRadio(index)}
                       ref={(el) => (inputRefs.current.radioEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
@@ -219,15 +240,17 @@ export default function Preview() {
             )}
             {item.type === "체크박스" && (
               <ul>
-                {item.items.map((item, index) => {
+                {item.items.map((item, optionIdx) => {
                   const itemId = `${randomId()}`;
                   return (
-                    <QuestionItemLi key={index}>
+                    <QuestionItemLi key={optionIdx}>
                       <PreviewCustomInput
                         type="checkbox"
                         id={itemId}
                         ref={(el) =>
-                          (inputRefs.current.checkbox[`${itemId}${index}`] = el)
+                          (inputRefs.current.checkBox[
+                            `${index}${itemId}${optionIdx}`
+                          ] = el)
                         }
                       />
                       <PreviewCustomLabel htmlFor={itemId}>
@@ -242,6 +265,7 @@ export default function Preview() {
               <QuestionListWrapDiv>
                 <PreviewCustomInput
                   type="checkbox"
+                  ref={(el) => (inputRefs.current.checkedBoxEtc[index] = el)}
                   checked={checkedSquare[index]}
                   onChange={() => handleCheckboxEtcClick(index)}
                 />
@@ -254,7 +278,7 @@ export default function Preview() {
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      // onClick={() => handleCheckboxEtcClick(index)}
+                      onClick={() => handleCheckboxEtcClick(index)}
                       ref={(el) => (inputRefs.current.checkboxEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />

@@ -30,11 +30,6 @@ export default function Result() {
   const location = useLocation();
   const inputValues = location?.state?.inputValues || {};
   const selectedOption = location?.state?.selectedOption || {};
-  const keysCheckRadio = Object.keys(inputValues.checkRadio);
-  const keysCheckBox = Object.keys(inputValues.checkbox);
-  console.log(keysCheckRadio);
-  console.log(keysCheckBox);
-  console.log(inputValues);
   return (
     <>
       <TitleBox disabled result />
@@ -75,13 +70,13 @@ export default function Result() {
             )}
             {item.type === "객관식 질문" && (
               <ul>
-                {item.items.map((item, idx) => {
+                {item.items.map((item, optionIdx) => {
                   const checkboxValue =
                     (inputValues.checkRadio &&
-                      inputValues.checkRadio[keysCheckRadio[index]]) ||
+                      inputValues.checkRadio[index][optionIdx]) ||
                     false;
                   return (
-                    <QuestionItemLi key={idx}>
+                    <QuestionItemLi key={optionIdx}>
                       <PreviewCustomRadio
                         type="checkbox"
                         value={checkboxValue}
@@ -96,7 +91,19 @@ export default function Result() {
             )}
             {item.type === "객관식 질문" && item.etc && (
               <QuestionListWrapDiv>
-                <PreviewCustomRadio type="checkbox" />
+                <PreviewCustomRadio
+                  type="checkbox"
+                  value={
+                    (inputValues.checkedRadioEtc &&
+                      inputValues.checkedRadioEtc[index]) ||
+                    false
+                  }
+                  checked={
+                    (inputValues.checkedRadioEtc &&
+                      inputValues.checkedRadioEtc[index]) ||
+                    false
+                  }
+                />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel>기타:</PreviewEtcLabel>
                   <PreviewEtcInput
@@ -112,16 +119,18 @@ export default function Result() {
             )}
             {item.type === "체크박스" && (
               <ul>
-                {item.items.map((item, index) => {
+                {item.items.map((item, optionIdx) => {
+                  const checkboxValue =
+                    (inputValues.checkbox &&
+                      inputValues.checkbox[index][optionIdx]) ||
+                    false;
                   return (
-                    <QuestionItemLi key={index}>
+                    <QuestionItemLi key={optionIdx}>
                       <PreviewCustomInput
                         type="checkbox"
-                        value={
-                          (inputValues.checkbox &&
-                            inputValues.checkbox[keysCheckBox[index]]) ||
-                          false
-                        }
+                        value={checkboxValue}
+                        checked={checkboxValue}
+                        readOnly
                       />
                       <PreviewCustomLabel>{item}</PreviewCustomLabel>
                     </QuestionItemLi>
@@ -131,7 +140,19 @@ export default function Result() {
             )}
             {item.type === "체크박스" && item.etc && (
               <QuestionListWrapDiv>
-                <PreviewCustomInput type="checkbox" />
+                <PreviewCustomInput
+                  type="checkbox"
+                  value={
+                    (inputValues.checkedBoxEtc &&
+                      inputValues.checkedBoxEtc[index]) ||
+                    false
+                  }
+                  checked={
+                    (inputValues.checkedBoxEtc &&
+                      inputValues.checkedBoxEtc[index]) ||
+                    false
+                  }
+                />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel>기타:</PreviewEtcLabel>
                   <AnimatePreviewEtcDiv>
