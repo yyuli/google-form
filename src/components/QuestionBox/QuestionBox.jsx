@@ -6,7 +6,6 @@ import trash from "../../assets/images/trash.svg";
 import { SelectedBoxLeftColor } from "../TitleBox/TitleBoxStyle";
 import {
   QuestionBoxWrap,
-  QuestionDragBtn,
   QuestionBoxDragDiv,
   QuestionTitleSection,
   AnimatedQuestionTitleSpan,
@@ -28,7 +27,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "../../store/clickedIndexSlice";
 import { setSelectedBox } from "../../store/selectedBoxSlice";
 import {
-  initialState,
+  addState,
   setQuestionListItem,
 } from "../../store/questionListItemSlice";
 import QuestionDropItem from "../QuestionDropItem/QuestionDropItem";
@@ -61,7 +60,7 @@ export default function QuestionBox({ item, index, provided }) {
     const newItems = [
       ...questionListItem.slice(0, index),
       addItems,
-      ...initialState.value,
+      ...addState.value,
       ...questionListItem.slice(index + 1),
     ];
     dispatch(setQuestionListItem(newItems));
