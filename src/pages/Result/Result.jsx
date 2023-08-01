@@ -37,8 +37,10 @@ export default function Result() {
         return (
           <QuestionItemWrap key={index}>
             <QuestionItemDragDiv />
-            <QuestionItemTitle>
-              {item.title === "" ? "질문" : item.title}
+            <QuestionItemTitle
+              title={item.title === "" && !item.required ? "false" : "true"}
+            >
+              {item.title}
               {item.required && (
                 <QuestionItemRequiredSpan>*</QuestionItemRequiredSpan>
               )}
@@ -155,17 +157,15 @@ export default function Result() {
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel>기타:</PreviewEtcLabel>
-                  <AnimatePreviewEtcDiv>
-                    <PreviewEtcInput
-                      type="text"
-                      value={
-                        (inputValues.checkboxEtc &&
-                          inputValues.checkboxEtc[index]) ||
-                        ""
-                      }
-                    />
-                    <AnimatedPreviewEtcSpan />
-                  </AnimatePreviewEtcDiv>
+                  <PreviewEtcInput
+                    type="text"
+                    value={
+                      (inputValues.checkboxEtc &&
+                        inputValues.checkboxEtc[index]) ||
+                      ""
+                    }
+                    readOnly
+                  />
                 </PreviewEtcDiv>
               </QuestionListWrapDiv>
             )}
