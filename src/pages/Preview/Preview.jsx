@@ -92,9 +92,6 @@ export default function Preview() {
     checkedBoxEtc: {}, // 기타 체크박스 체크 유무
   });
   const handleCheckboxEtcClick = (index) => {
-    // const newCheckedSquare = [...checkedSquare];
-    // newCheckedSquare[index] = !newCheckedSquare[index];
-    // setCheckedSquare(newCheckedSquare);
     setCheckedSquare((prevCheckedSquare) => {
       const newCheckedSquare = [...prevCheckedSquare];
       newCheckedSquare[index] = !newCheckedSquare[index];
@@ -102,9 +99,6 @@ export default function Preview() {
     });
   };
   const handleCheckboxEtcClickRadio = (index) => {
-    // const newCheckedRadio = [...checkedRadio];
-    // newCheckedRadio[index] = !newCheckedRadio[index];
-    // setCheckedRadio(newCheckedRadio);
     setCheckedRadio((prevCheckedRadio) => {
       const newCheckedRadio = [...prevCheckedRadio];
       newCheckedRadio[index] = !newCheckedRadio[index];
@@ -159,13 +153,15 @@ export default function Preview() {
   return (
     <>
       <h1 className="a11y-hidden">구글 설문지</h1>
-      <TitleBox disabled />
+      <TitleBox disabled preview />
       {questionListItem.map((item, index) => {
         return (
           <QuestionItemWrap key={index}>
             <QuestionItemDragDiv />
-            <QuestionItemTitle>
-              {item.title === "" ? "질문" : item.title}
+            <QuestionItemTitle
+              title={item.title === "" && !item.required ? "false" : "true"}
+            >
+              {item.title}
               {item.required && (
                 <QuestionItemRequiredSpan>*</QuestionItemRequiredSpan>
               )}
