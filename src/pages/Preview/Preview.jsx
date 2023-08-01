@@ -29,11 +29,36 @@ import {
   SubmitBtn,
   ResetBtn,
 } from "./PreviewStyle";
+import { useNavigate } from "react-router-dom";
 
 export default function Preview() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
   const [isActive, setIsActive] = useState({});
   const [selectedOption, setSelectedOption] = useState({});
+  const navigate = useNavigate();
+  const handleResult = () => {
+    const inputValues = Object.entries(inputRefs.current).reduce(
+      (acc, [key, refMap]) => {
+        acc[key] = {};
+        for (const id in refMap) {
+          if (key === "checkRadio" || key === "checkbox") {
+            acc[key][id] = refMap[id].checked;
+          } else {
+            acc[key][id] = refMap[id].value;
+          }
+        }
+        return acc;
+      },
+      {}
+    );
+    navigate("/result", {
+      state: {
+        inputValues: inputValues,
+        selectedOption: selectedOption,
+      },
+    });
+  };
+
   const [checkedSquare, setCheckedSquare] = useState(
     new Array(
       questionListItem.filter(
@@ -49,12 +74,14 @@ export default function Preview() {
     ).fill(false)
   );
   const inputRefs = useRef({
-    shortAnswer: {},
-    longAnswer: {},
-    radioEtc: {},
-    checkboxEtc: {},
-    checkbox: {},
-    checkRadio: {},
+    shortAnswer: {}, // 단답형
+    longAnswer: {}, // 장문형
+    radioEtc: {}, // 객관식 질문 기타란
+    checkboxEtc: {}, // 체크박스 기타란
+    checkbox: {}, // 체크박스 체크 유무
+    checkRadio: {}, // 라디오 체크 유무
+    // checkedRadioEtc: {}, // 기타 라디오 체크 유무
+    // checkedBoxEtc: {}, // 기타 체크박스 체크 유무
   });
 
   const handleCheckboxEtcClick = (index) => {
@@ -145,6 +172,8 @@ export default function Preview() {
               <ul>
                 {item.items.map((item, index) => {
                   const itemId = `${randomId()}`;
+                  // console.log("id!!!", itemId);
+                  // console.log(`${itemId}${index}`);
                   return (
                     <QuestionItemLi key={index}>
                       <PreviewCustomRadio
@@ -169,6 +198,7 @@ export default function Preview() {
                   type="checkbox"
                   checked={checkedRadio[index]}
                   onChange={() => handleCheckboxEtcClickRadio(index)}
+                  // ref={(el) => (inputRefs.current.checkedRadioEtc[index] = el)}
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel
@@ -179,7 +209,7 @@ export default function Preview() {
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      onClick={() => handleCheckboxEtcClickRadio(index)}
+                      // onClick={() => handleCheckboxEtcClickRadio(index)}
                       ref={(el) => (inputRefs.current.radioEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
@@ -224,7 +254,7 @@ export default function Preview() {
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      onClick={() => handleCheckboxEtcClick(index)}
+                      // onClick={() => handleCheckboxEtcClick(index)}
                       ref={(el) => (inputRefs.current.checkboxEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
@@ -269,7 +299,9 @@ export default function Preview() {
         );
       })}
       <BtnWrap>
-        <SubmitBtn type="submit">제출</SubmitBtn>
+        <SubmitBtn type="submit" onClick={handleResult}>
+          제출
+        </SubmitBtn>
         <ResetBtn type="button" onClick={reset}>
           양식 지우기
         </ResetBtn>
