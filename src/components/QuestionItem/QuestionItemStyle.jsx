@@ -19,7 +19,7 @@ const QuestionItemDragDiv = styled.div`
   visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
 `;
 const QuestionItemTitle = styled.h3`
-  height: 32px;
+  height: ${({ title }) => (title === "false" ? "14px" : "32px")};
   font-size: 16px;
   margin-bottom: 2px;
 `;

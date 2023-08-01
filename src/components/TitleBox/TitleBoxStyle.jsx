@@ -4,7 +4,8 @@ const TitleBoxWrap = styled.article`
   display: flex;
   flex-direction: column;
   width: 768px;
-  padding: 22px 24px 24px;
+  padding: ${({ result }) =>
+    result === "true" ? "22px 24px 16px" : "22px 24px 24px"};
   background-color: #fff;
   border-radius: 8px;
   box-sizing: border-box;
@@ -29,7 +30,11 @@ const SelectedBoxLeftColor = styled.div`
   top: 0;
   left: 0;
   border-radius: 8px 0px 0 8px;
-  /* z-index: 1; */
+`;
+const TitleBoxResultP = styled.p`
+  font-size: 12px;
+  color: #70757a;
+  margin: 4px 0px 2px;
 `;
 const ExpandBorderBottom = keyframes`
   0% {
@@ -95,13 +100,13 @@ const TitlePreviewDiv = styled.div`
   background-color: #dadce0;
   position: absolute;
   left: 0;
-  top: 70%;
+  top: ${({ preview }) => (preview === "true" ? "65%" : "70%")};
 `;
 const TitleRequiredP = styled.p`
   color: #d93025;
   font-size: 14px;
-  margin-top: 24px;
-  padding-top: 20px;
+  margin-top: ${({ result }) => (result === "true" ? "39px" : "24px")};
+  padding: ${({ result }) => (result === "true" ? "0 0 6px 0" : "20px 0 0 0")};
 `;
 
 export {
@@ -117,4 +122,5 @@ export {
   TitleDesInput,
   TitlePreviewDiv,
   TitleRequiredP,
+  TitleBoxResultP,
 };
