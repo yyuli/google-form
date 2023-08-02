@@ -35,27 +35,27 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 export default function QuestionBox({ item, index, provided }) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
-  const [isActiveToggleSwitch, setIsActiveToggleSwitch] = useState(false);
+  const [isRequired, setIsRequired] = useState(item.required);
   const [questionTitle, setQuestionTitle] = useState(item.title);
   const [options, setOptions] = useState([...item.items]);
   const [showEtcOption, setShowEtcOption] = useState(item.etc);
   const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
+  const [isEdited, setIsEdited] = useState(false);
   const selectedBox = useSelector((state) => state.selectedBox.value);
   const questionListItem = useSelector((state) => state.questionListItem.value);
-  const [isEdited, setIsEdited] = useState(false);
+  const dispatch = useDispatch();
 
   const handleQuestionTitleChange = (e) => {
     setQuestionTitle(e.target.value);
     setIsEdited(true);
   };
-  const dispatch = useDispatch();
   const addItem = () => {
     const addItems = {
       title: questionTitle,
       items: [...options],
       etc: showEtcOption,
       type: selectedQuestionType,
-      required: isActiveToggleSwitch,
+      required: isRequired,
     };
     const newItems = [
       ...questionListItem.slice(0, index),
@@ -116,7 +116,7 @@ export default function QuestionBox({ item, index, provided }) {
       items: [...options],
       etc: showEtcOption,
       type: selectedQuestionType,
-      required: isActiveToggleSwitch,
+      required: isRequired,
     };
     const newItems = [
       ...questionListItem.slice(0, index),
@@ -254,7 +254,7 @@ export default function QuestionBox({ item, index, provided }) {
               <QuestionListLineSpan />
               <ToggleRequiredSpan
                 onClick={() => {
-                  setIsActiveToggleSwitch(!isActiveToggleSwitch);
+                  setIsRequired(!isRequired);
                   setIsEdited(true);
                 }}
               >
@@ -262,12 +262,10 @@ export default function QuestionBox({ item, index, provided }) {
               </ToggleRequiredSpan>
               <ToggleSwitchDiv
                 onClick={() => {
-                  setIsActiveToggleSwitch(!isActiveToggleSwitch);
+                  setIsRequired(!isRequired);
                   setIsEdited(true);
                 }}
-                className={
-                  isActiveToggleSwitch || item.required ? "active" : ""
-                }
+                className={isRequired || item.required ? "active" : ""}
               >
                 <ToggleButtonSpan />
               </ToggleSwitchDiv>

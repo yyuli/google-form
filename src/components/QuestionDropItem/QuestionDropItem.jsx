@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  QuestionListDragBtn,
   QuestionListDragDiv,
   AnimatedQuestionListSpan,
   AnimateQuestionListDiv,
@@ -15,7 +14,6 @@ import {
   QuestionListNumberSpan,
 } from "../QuestionBox/QuestionBoxStyle";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { ReactReduxContext } from "react-redux";
 
 export default function QuestionDropItem({
   selectedQuestionType,
@@ -31,7 +29,7 @@ export default function QuestionDropItem({
   const handleMouseEnter = (index) => {
     setHoverState((prev) => prev.map((_, i) => (i === index ? true : false)));
   };
-  const handleMouseLeave = (index) => {
+  const handleMouseLeave = () => {
     setHoverState(options.map(() => false));
   };
   const handleShowEtc = (state) => {
@@ -81,9 +79,6 @@ export default function QuestionDropItem({
                       onMouseLeave={() => handleMouseLeave(index)}
                       key={index}
                     >
-                      {/* {hoverState[index] && (
-                        <QuestionListDragDiv {...provided.dragHandleProps} />
-                      )} */}
                       <QuestionListDragDiv
                         {...provided.dragHandleProps}
                         isVisible={hoverState[index]}

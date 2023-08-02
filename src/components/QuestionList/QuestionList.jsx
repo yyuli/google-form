@@ -9,8 +9,8 @@ import { setIndex } from "../../store/clickedIndexSlice";
 export default function QuestionList() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
   const clickedIndex = useSelector((state) => state.clickedIndex.value);
-  const dispatch = useDispatch();
   const [dragResult, setDragResult] = useState(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (dragResult) {
       handleStateUpdate(dragResult);

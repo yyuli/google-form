@@ -12,8 +12,6 @@ import { QuestionTypeSelect } from "../../components/QuestionBox/QuestionBoxStyl
 import {
   PreviewEtcDiv,
   PreviewEtcLabel,
-  AnimatedPreviewEtcSpan,
-  AnimatePreviewEtcDiv,
   PreviewEtcInput,
   PreviewCustomInput,
   PreviewCustomLabel,
@@ -32,6 +30,7 @@ export default function Result() {
   const selectedOption = location?.state?.selectedOption || {};
   return (
     <>
+      <h1 className="a11y-hidden">구글 설문지</h1>
       <TitleBox disabled result />
       {questionListItem.map((item, index) => {
         return (
@@ -123,8 +122,8 @@ export default function Result() {
               <ul>
                 {item.items.map((item, optionIdx) => {
                   const checkboxValue =
-                    (inputValues.checkbox &&
-                      inputValues.checkbox[index][optionIdx]) ||
+                    (inputValues.checkBox &&
+                      inputValues.checkBox[index][optionIdx]) ||
                     false;
                   return (
                     <QuestionItemLi key={optionIdx}>
