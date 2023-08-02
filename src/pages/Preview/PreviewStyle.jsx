@@ -3,6 +3,7 @@ import square from "../../assets/images/square.svg";
 import squareChecked from "../../assets/images/square-checked.svg";
 import circle from "../../assets/images/circle.svg";
 import circleChecked from "../../assets/images/circle-checked.svg";
+import alert from "../../assets/images/alert.svg";
 import {
   QuestionListEtcDiv,
   QuestionListInput,
@@ -68,7 +69,12 @@ const PreviewCustomRadio = styled.input`
   }
 `;
 const AnimatedPreviewShortSpan = styled.span`
-  ${CommonSpan}
+  content: "";
+  position: absolute;
+  left: 50%;
+  border-bottom: ${({ alert }) =>
+    alert === "true" ? "2px solid #d93025" : "2px solid #673ab7"};
+  transform: translateX(-50%);
   bottom: 0;
 `;
 const AnimatePreviewShortDiv = styled.div`
@@ -83,7 +89,12 @@ const PreviewShortInput = styled(QuestionListShortInput)`
   }
 `;
 const AnimatedPreviewLongSpan = styled.span`
-  ${CommonSpan}
+  content: "";
+  position: absolute;
+  left: 50%;
+  border-bottom: ${({ alert }) =>
+    alert === "true" ? "2px solid #d93025" : "2px solid #673ab7"};
+  transform: translateX(-50%);
   bottom: 0;
 `;
 const AnimatePreviewLongDiv = styled.div`
@@ -123,6 +134,17 @@ const ResetBtn = styled.button`
     background-color: #e7e3f5;
   }
 `;
+const PreviewAlertP = styled.p`
+  font-size: 12px;
+  color: #d93025;
+  height: 20px;
+  line-height: 20px;
+  margin-top: 20px;
+  padding-left: 36px;
+  background: url(${alert}) no-repeat;
+  background-position: 2px center;
+  background-size: 20px 20px;
+`;
 
 export {
   PreviewEtcDiv,
@@ -142,4 +164,5 @@ export {
   BtnWrap,
   SubmitBtn,
   ResetBtn,
+  PreviewAlertP,
 };

@@ -7,7 +7,8 @@ const QuestionItemWrap = styled.article`
   background-color: #fff;
   border-radius: 8px;
   box-sizing: border-box;
-  border: 1px solid #dadce0;
+  border: ${({ alert }) =>
+    alert === "true" ? "1px solid #d93025" : "1px solid #dadce0"};
   margin: 12px 0;
   padding: 0 24px 24px;
 `;

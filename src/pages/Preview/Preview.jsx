@@ -28,6 +28,7 @@ import {
   BtnWrap,
   SubmitBtn,
   ResetBtn,
+  PreviewAlertP,
 } from "./PreviewStyle";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +36,9 @@ export default function Preview() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
   const [isActive, setIsActive] = useState({});
   const [selectedOption, setSelectedOption] = useState({});
+  const [unAnsweredIndex, setUnAnsweredIndex] = useState(-1);
   const navigate = useNavigate();
+
   const handleResult = () => {
     const inputValues = Object.entries(inputRefs.current).reduce(
       (acc, [key, refMap]) => {
@@ -58,12 +61,45 @@ export default function Preview() {
       },
       {}
     );
-    navigate("/result", {
-      state: {
-        inputValues: inputValues,
-        selectedOption: selectedOption,
-      },
+    const unAnsweredIndex = checkRequiredAnswers(inputValues, selectedOption);
+    if (unAnsweredIndex === -1) {
+      navigate("/result", {
+        state: {
+          inputValues: inputValues,
+          selectedOption: selectedOption,
+        },
+      });
+    } else {
+      setUnAnsweredIndex(unAnsweredIndex);
+    }
+  };
+  const checkRequiredAnswers = (inputValues, selectedOption) => {
+    const unAnsweredIndex = questionListItem.findIndex((item, index) => {
+      if (!item.required) return false;
+      const id = index;
+      switch (item.type) {
+        case "단답형":
+        case "장문형":
+          return !(inputValues.shortAnswer[id] || inputValues.longAnswer[id]);
+        case "객관식 질문":
+          return !(
+            Object.values(inputValues.checkRadio[id] || {}).some(
+              (checked) => checked
+            ) || inputValues.checkedRadioEtc[id]
+          );
+        case "체크박스":
+          return !(
+            Object.values(inputValues.checkBox[id] || {}).some(
+              (checked) => checked
+            ) || inputValues.checkedBoxEtc[id]
+          );
+        case "드롭다운":
+          return !selectedOption[id];
+        default:
+          return false;
+      }
     });
+    return unAnsweredIndex >= 0 ? unAnsweredIndex : -1;
   };
 
   const [checkedSquare, setCheckedSquare] = useState(
@@ -97,6 +133,9 @@ export default function Preview() {
       newCheckedSquare[index] = !newCheckedSquare[index];
       return newCheckedSquare;
     });
+    if (unAnsweredIndex === index) {
+      setUnAnsweredIndex(-1);
+    }
   };
   const handleCheckboxEtcClickRadio = (index) => {
     setCheckedRadio((prevCheckedRadio) => {
@@ -104,6 +143,9 @@ export default function Preview() {
       newCheckedRadio[index] = !newCheckedRadio[index];
       return newCheckedRadio;
     });
+    if (unAnsweredIndex === index) {
+      setUnAnsweredIndex(-1);
+    }
   };
   const randomId = () => {
     return "_" + Math.random().toString(36).substring(2, 9) + "_";
@@ -156,7 +198,10 @@ export default function Preview() {
       <TitleBox disabled preview />
       {questionListItem.map((item, index) => {
         return (
-          <QuestionItemWrap key={index}>
+          <QuestionItemWrap
+            key={index}
+            alert={unAnsweredIndex === index ? "true" : "false"}
+          >
             <QuestionItemDragDiv />
             <QuestionItemTitle
               title={item.title === "" && !item.required ? "false" : "true"}
@@ -172,8 +217,13 @@ export default function Preview() {
                   type="text"
                   placeholder="내 답변"
                   ref={(el) => (inputRefs.current.shortAnswer[index] = el)}
+                  onChange={() =>
+                    unAnsweredIndex === index && setUnAnsweredIndex(-1)
+                  }
                 />
-                <AnimatedPreviewShortSpan />
+                <AnimatedPreviewShortSpan
+                  alert={unAnsweredIndex === index ? "true" : "false"}
+                />
               </AnimatePreviewShortDiv>
             )}
             {item.type === "장문형" && (
@@ -182,8 +232,13 @@ export default function Preview() {
                   type="text"
                   placeholder="내 답변"
                   ref={(el) => (inputRefs.current.longAnswer[index] = el)}
+                  onChange={() =>
+                    unAnsweredIndex === index && setUnAnsweredIndex(-1)
+                  }
                 />
-                <AnimatedPreviewLongSpan />
+                <AnimatedPreviewLongSpan
+                  alert={unAnsweredIndex === index ? "true" : "false"}
+                />
               </AnimatePreviewLongDiv>
             )}
             {item.type === "객관식 질문" && (
@@ -199,6 +254,9 @@ export default function Preview() {
                           (inputRefs.current.checkRadio[
                             `${index}${itemId}${optionIdx}`
                           ] = el)
+                        }
+                        onChange={() =>
+                          unAnsweredIndex === index && setUnAnsweredIndex(-1)
                         }
                       />
                       <PreviewCustomLabel htmlFor={itemId}>
@@ -229,7 +287,9 @@ export default function Preview() {
                       onClick={() => handleCheckboxEtcClickRadio(index)}
                       ref={(el) => (inputRefs.current.radioEtc[index] = el)}
                     />
-                    <AnimatedPreviewEtcSpan />
+                    <AnimatedPreviewEtcSpan
+                      alert={unAnsweredIndex === index ? "true" : "false"}
+                    />
                   </AnimatePreviewEtcDiv>
                 </PreviewEtcDiv>
               </QuestionListWrapDiv>
@@ -247,6 +307,9 @@ export default function Preview() {
                           (inputRefs.current.checkBox[
                             `${index}${itemId}${optionIdx}`
                           ] = el)
+                        }
+                        onChange={() =>
+                          unAnsweredIndex === index && setUnAnsweredIndex(-1)
                         }
                       />
                       <PreviewCustomLabel htmlFor={itemId}>
@@ -277,7 +340,9 @@ export default function Preview() {
                       onClick={() => handleCheckboxEtcClick(index)}
                       ref={(el) => (inputRefs.current.checkboxEtc[index] = el)}
                     />
-                    <AnimatedPreviewEtcSpan />
+                    <AnimatedPreviewEtcSpan
+                      alert={unAnsweredIndex === index ? "true" : "false"}
+                    />
                   </AnimatePreviewEtcDiv>
                 </PreviewEtcDiv>
               </QuestionListWrapDiv>
@@ -306,6 +371,7 @@ export default function Preview() {
                           setIsActive(() => ({
                             [index]: false,
                           }));
+                          unAnsweredIndex === index && setUnAnsweredIndex(-1);
                         }}
                       >
                         {item}
@@ -314,6 +380,9 @@ export default function Preview() {
                   ))}
                 </ul>
               </QuestionTypeSelect>
+            )}
+            {unAnsweredIndex === index && (
+              <PreviewAlertP>필수 질문입니다.</PreviewAlertP>
             )}
           </QuestionItemWrap>
         );
