@@ -21,12 +21,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { setIndex } from "../../store/clickedIndexSlice";
 import QuestionBox from "../QuestionBox/QuestionBox";
 import { Draggable } from "react-beautiful-dnd";
+import { RootState } from "../../store/store";
+import { ItemType } from "../QuestionList/QuestionList";
 
-export default function QuestionItem({ item, index }) {
+interface QuestionItemProps {
+  item: ItemType;
+  index: number;
+}
+
+export default function QuestionItem({ item, index }: QuestionItemProps) {
   const [isQuestionItemHovered, setIsQuestionItemHovered] = useState(false);
   const [isModified, setIsModified] = useState(false);
-  const clickedIndex = useSelector((state) => state.clickedIndex.value);
-  const questionListItem = useSelector((state) => state.questionListItem.value);
+  const clickedIndex = useSelector(
+    (state: RootState) => state.clickedIndex.value
+  );
+  const questionListItem = useSelector(
+    (state: RootState) => state.questionListItem.value
+  );
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(setIndex(index));
@@ -55,7 +66,7 @@ export default function QuestionItem({ item, index }) {
               >
                 <QuestionItemDragDiv
                   {...provided.dragHandleProps}
-                  isVisible={isQuestionItemHovered}
+                  visible={isQuestionItemHovered ? "true" : "false"}
                 />
                 <QuestionItemTitle>
                   {item.title === "" ? "질문" : item.title}

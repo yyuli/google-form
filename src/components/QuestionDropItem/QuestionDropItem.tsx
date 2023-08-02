@@ -14,6 +14,18 @@ import {
   QuestionListNumberSpan,
 } from "../QuestionBox/QuestionBoxStyle";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { QuestionType } from "../QuestionBox/QuestionBox";
+
+interface QuestionDropItemProps {
+  selectedQuestionType: QuestionType;
+  options: string[];
+  setOptions: (options: string[]) => void;
+  setShowEtcOption: (state: boolean) => void;
+  showEtcOption: boolean;
+  setIsEdited: (edited: boolean) => void;
+  type: string;
+  src?: string;
+}
 
 export default function QuestionDropItem({
   selectedQuestionType,
@@ -24,19 +36,22 @@ export default function QuestionDropItem({
   setIsEdited,
   type,
   src,
-}) {
+}: QuestionDropItemProps) {
   const [hoverState, setHoverState] = useState(options.map(() => false));
-  const handleMouseEnter = (index) => {
+  const handleMouseEnter = (index: number) => {
     setHoverState((prev) => prev.map((_, i) => (i === index ? true : false)));
   };
   const handleMouseLeave = () => {
     setHoverState(options.map(() => false));
   };
-  const handleShowEtc = (state) => {
+  const handleShowEtc = (state: boolean) => {
     setShowEtcOption(state);
     setIsEdited(true);
   };
-  const handleQuestionItem = (e, index) => {
+  const handleQuestionItem = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const newOptions = [...options];
     newOptions[index] = e.target.value;
     setOptions(newOptions);
@@ -47,7 +62,7 @@ export default function QuestionDropItem({
     setOptions([...options, newOption]);
     setIsEdited(true);
   };
-  const removeOption = (index) => {
+  const removeOption = (index: number) => {
     const removedOption = [...options];
     removedOption.splice(index, 1);
     setOptions(removedOption);
@@ -76,14 +91,13 @@ export default function QuestionDropItem({
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={() => handleMouseLeave(index)}
+                      onMouseLeave={() => handleMouseLeave()}
                       key={index}
                     >
                       <QuestionListDragDiv
                         {...provided.dragHandleProps}
-                        isVisible={hoverState[index]}
+                        visible={hoverState[index] ? "true" : "false"}
                       />
-                      <QuestionListDragDiv {...provided.dragHandleProps} />
                       {selectedQuestionType === "드롭다운" ? (
                         <QuestionListNumberSpan>
                           {index + 1}

@@ -68,7 +68,7 @@ const PreviewCustomRadio = styled.input`
     background-image: url(${circleChecked});
   }
 `;
-const AnimatedPreviewShortSpan = styled.span`
+const AnimatedPreviewShortSpan = styled.span<{ alert: string }>`
   content: "";
   position: absolute;
   left: 50%;
@@ -88,7 +88,7 @@ const PreviewShortInput = styled(QuestionListShortInput)`
     animation: ${ExpandBorderBottom} 0.4s forwards;
   }
 `;
-const AnimatedPreviewLongSpan = styled.span`
+const AnimatedPreviewLongSpan = styled.span<{ alert: string }>`
   content: "";
   position: absolute;
   left: 50%;

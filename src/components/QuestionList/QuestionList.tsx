@@ -5,10 +5,24 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { setQuestionListItem } from "../../store/questionListItemSlice";
 import { useDispatch } from "react-redux";
 import { setIndex } from "../../store/clickedIndexSlice";
+import { RootState } from "../../store/store";
+import { QuestionType } from "../QuestionBox/QuestionBox";
+
+export interface ItemType {
+  type: QuestionType;
+  title: string;
+  required: boolean;
+  items: string[];
+  etc: boolean;
+}
 
 export default function QuestionList() {
-  const questionListItem = useSelector((state) => state.questionListItem.value);
-  const clickedIndex = useSelector((state) => state.clickedIndex.value);
+  const questionListItem = useSelector(
+    (state: RootState) => state.questionListItem.value
+  ) as ItemType[];
+  const clickedIndex = useSelector(
+    (state: RootState) => state.clickedIndex.value
+  );
   const [dragResult, setDragResult] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -17,11 +31,11 @@ export default function QuestionList() {
       setDragResult(null);
     }
   }, [dragResult]);
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: any) => {
     setDragResult(result);
   };
   const handleStateUpdate = useCallback(
-    (result) => {
+    (result: any) => {
       const { destination, source } = result;
       if (!destination) {
         return;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import dots from "../../assets/images/dots.svg";
 import { QuestionListDiv } from "../QuestionBox/QuestionBoxStyle";
 
-const QuestionItemWrap = styled.article`
+const QuestionItemWrap = styled.article<{ alert?: string }>`
   width: 768px;
   background-color: #fff;
   border-radius: 8px;
@@ -12,12 +12,12 @@ const QuestionItemWrap = styled.article`
   margin: 12px 0;
   padding: 0 24px 24px;
 `;
-const QuestionItemDragDiv = styled.div`
+const QuestionItemDragDiv = styled.div<{ visible?: string }>`
   width: 100%;
   height: 28px;
   background-color: #fff;
   background: url(${dots}) no-repeat center 4px;
-  visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
+  visibility: ${({ visible }) => (visible === "true" ? "visible" : "hidden")};
 `;
 const QuestionItemTitle = styled.h3`
   height: ${({ title }) => (title === "false" ? "14px" : "32px")};

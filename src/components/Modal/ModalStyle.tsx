@@ -12,7 +12,6 @@ const ModalBackground = styled.article`
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
 `;
-
 const ModalWrapper = styled.div`
   display: inline-block;
   width: 373px;
@@ -22,17 +21,14 @@ const ModalWrapper = styled.div`
   padding: 24px 24px 8px 24px;
   box-sizing: border-box;
 `;
-
 const ModalTitle = styled.h2`
   font-size: 22px;
   font-weight: 500;
   margin-bottom: 18px;
 `;
-
 const ModalSubtitle = styled.h3`
   font-size: 16px;
 `;
-
 const CloseBtn = styled.button`
   height: 36px;
   font-size: 14px;
@@ -45,7 +41,6 @@ const CloseBtn = styled.button`
   box-sizing: border-box;
   border-radius: 4px;
 `;
-
 const ResetBtn = styled.button`
   height: 36px;
   font-size: 14px;

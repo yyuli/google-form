@@ -120,7 +120,7 @@ const QuestionListDiv = styled.div`
   position: relative;
   height: 48px;
 `;
-const QuestionListDragDiv = styled.div`
+const QuestionListDragDiv = styled.div<{ visible: string }>`
   width: 27px;
   height: 27px;
   background: url(${dots}) no-repeat center 4px;
@@ -128,7 +128,7 @@ const QuestionListDragDiv = styled.div`
   top: 50%;
   left: -22px;
   transform: translateY(-50%) rotate(90deg);
-  visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
+  visibility: ${({ visible }) => (visible === "true" ? "visible" : "hidden")};
 `;
 const QuestionListNumberSpan = styled.span`
   font-size: 14px;

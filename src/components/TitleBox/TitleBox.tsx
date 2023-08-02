@@ -21,11 +21,24 @@ import {
 } from "../../store/questionListItemSlice";
 import { increment } from "../../store/clickedIndexSlice";
 import NavigationBox from "../NavigationBox/NavigationBox";
+import { RootState } from "../../store/store";
 
-export default function TitleBox({ disabled, result, preview }) {
-  const selectedBox = useSelector((state) => state.selectedBox.value);
-  const { title, description } = useSelector((state) => state.survey);
-  const questionListItem = useSelector((state) => state.questionListItem.value);
+interface TitleBoxProps {
+  disabled?: boolean;
+  result?: boolean;
+  preview?: boolean;
+}
+
+export default function TitleBox({ disabled, result, preview }: TitleBoxProps) {
+  const selectedBox = useSelector(
+    (state: RootState) => state.selectedBox.value
+  );
+  const { title, description } = useSelector(
+    (state: RootState) => state.survey
+  );
+  const questionListItem = useSelector(
+    (state: RootState) => state.questionListItem.value
+  );
   const hasRequiredItem = questionListItem.some((item) => item.required);
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -75,7 +88,7 @@ export default function TitleBox({ disabled, result, preview }) {
           id="title"
           type="text"
           placeholder="설문지 제목"
-          selectedBox={selectedBox}
+          selectedbox={selectedBox}
           value={title}
           onChange={(e) => dispatch(setTitle(e.target.value))}
           readOnly={disabled}
@@ -88,7 +101,7 @@ export default function TitleBox({ disabled, result, preview }) {
           <TitleDesInput
             id="description"
             placeholder="설문지 설명"
-            selectedBox={selectedBox}
+            selectedbox={selectedBox}
             value={description}
             onChange={(e) => dispatch(setDescription(e.target.value))}
             readOnly={disabled}

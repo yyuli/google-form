@@ -32,20 +32,41 @@ import {
 } from "../../store/questionListItemSlice";
 import QuestionDropItem from "../QuestionDropItem/QuestionDropItem";
 import { DragDropContext } from "react-beautiful-dnd";
+import { RootState } from "../../store/store";
+import { ItemType } from "../QuestionList/QuestionList";
 
-export default function QuestionBox({ item, index, provided }) {
+interface QuestionProps {
+  item: ItemType;
+  index: number;
+  provided: any;
+}
+export type QuestionType =
+  | "단답형"
+  | "장문형"
+  | "객관식 질문"
+  | "체크박스"
+  | "드롭다운";
+
+export default function QuestionBox({ item, index, provided }: QuestionProps) {
   const [isActiveTypeSelect, setIsActiveTypeSelect] = useState(false);
   const [isRequired, setIsRequired] = useState(item.required);
   const [questionTitle, setQuestionTitle] = useState(item.title);
   const [options, setOptions] = useState([...item.items]);
   const [showEtcOption, setShowEtcOption] = useState(item.etc);
-  const [selectedQuestionType, setSelectedQuestionType] = useState(item.type);
+  const [selectedQuestionType, setSelectedQuestionType] =
+    useState<QuestionType>(item.type as QuestionType);
   const [isEdited, setIsEdited] = useState(false);
-  const selectedBox = useSelector((state) => state.selectedBox.value);
-  const questionListItem = useSelector((state) => state.questionListItem.value);
+  const selectedBox = useSelector(
+    (state: RootState) => state.selectedBox.value
+  );
+  const questionListItem = useSelector(
+    (state: RootState) => state.questionListItem.value
+  );
   const dispatch = useDispatch();
 
-  const handleQuestionTitleChange = (e) => {
+  const handleQuestionTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setQuestionTitle(e.target.value);
     setIsEdited(true);
   };
@@ -98,17 +119,17 @@ export default function QuestionBox({ item, index, provided }) {
     setOptions([...item.items]);
     setShowEtcOption(item.etc);
   }, [questionListItem]);
-  const handleClick = (type) => {
+  const handleClick = (type: QuestionType) => {
     setSelectedQuestionType(type);
     setIsActiveTypeSelect(!isActiveTypeSelect);
     setIsEdited(true);
   };
   const questionTypes = [
-    { name: "단답형", id: "short" },
-    { name: "장문형", id: "long" },
-    { name: "객관식 질문", id: "multi" },
-    { name: "체크박스", id: "check" },
-    { name: "드롭다운", id: "drop" },
+    { name: "단답형" as QuestionType, id: "short" },
+    { name: "장문형" as QuestionType, id: "long" },
+    { name: "객관식 질문" as QuestionType, id: "multi" },
+    { name: "체크박스" as QuestionType, id: "check" },
+    { name: "드롭다운" as QuestionType, id: "drop" },
   ];
   const editItem = () => {
     const editItems = {
@@ -131,7 +152,7 @@ export default function QuestionBox({ item, index, provided }) {
       setIsEdited(false);
     }
   }, [isEdited]);
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: any) => {
     const { destination, source } = result;
     if (!destination) {
       return;

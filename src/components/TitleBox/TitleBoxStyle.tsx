@@ -1,6 +1,10 @@
 import styled, { css, keyframes } from "styled-components";
+interface CommonInputProps {
+  selectedbox?: string;
+  readOnly?: boolean;
+}
 
-const TitleBoxWrap = styled.article`
+const TitleBoxWrap = styled.article<{ result?: string }>`
   display: flex;
   flex-direction: column;
   width: 768px;
@@ -62,16 +66,16 @@ const AnimatedBorderDescSpan = styled.span`
   ${CommonSpan}
   bottom: 0;
 `;
-const CommonInput = css`
-  border-bottom: ${({ selectedBox, readOnly }) =>
-    selectedBox === "TitleBox" && !readOnly ? "1px solid #0000001f" : ""};
-  padding-top: ${({ selectedBox, readOnly }) =>
-    selectedBox === "TitleBox" && !readOnly ? "1px" : ""};
+const CommonInput = css<CommonInputProps>`
+  border-bottom: ${({ selectedbox, readOnly }) =>
+    selectedbox === "TitleBox" && !readOnly ? "1px solid #0000001f" : ""};
+  padding-top: ${({ selectedbox, readOnly }) =>
+    selectedbox === "TitleBox" && !readOnly ? "1px" : ""};
   &:focus + ${AnimatedBorderTitleSpan}, &:focus + ${AnimatedBorderDescSpan} {
     animation: ${ExpandBorderBottom} 0.4s forwards;
   }
 `;
-const TitleInput = styled.input`
+const TitleInput = styled.input<CommonInputProps>`
   width: 100%;
   font-size: 32px;
   height: 48px;
@@ -82,7 +86,7 @@ const TitleInput = styled.input`
     color: #70757a;
   }
 `;
-const TitleDesInput = styled.input`
+const TitleDesInput = styled.input<CommonInputProps>`
   width: 100%;
   font-size: 14px;
   height: 21px;
@@ -94,7 +98,7 @@ const TitleDesInput = styled.input`
     font-size: 14px;
   }
 `;
-const TitlePreviewDiv = styled.div`
+const TitlePreviewDiv = styled.div<{ preview?: string }>`
   width: 768px;
   height: 1px;
   background-color: #dadce0;
@@ -102,7 +106,7 @@ const TitlePreviewDiv = styled.div`
   left: 0;
   top: ${({ preview }) => (preview === "true" ? "65%" : "70%")};
 `;
-const TitleRequiredP = styled.p`
+const TitleRequiredP = styled.p<{ result?: string }>`
   color: #d93025;
   font-size: 14px;
   margin-top: ${({ result }) => (result === "true" ? "39px" : "24px")};

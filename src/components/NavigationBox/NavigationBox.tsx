@@ -4,7 +4,11 @@ import show from "../../assets/images/show.svg";
 import { NavigationBoxWrap } from "./NavigationBoxStyle";
 import { useNavigate } from "react-router-dom";
 
-export default function NavigationBox({ addItem }) {
+interface NavigationBoxProps {
+  addItem: () => void;
+}
+
+const NavigationBox = ({ addItem }: NavigationBoxProps) => {
   const navigate = useNavigate();
   const handlePreview = () => {
     navigate("/preview");
@@ -20,4 +24,6 @@ export default function NavigationBox({ addItem }) {
       </button>
     </NavigationBoxWrap>
   );
-}
+};
+
+export default NavigationBox;

@@ -22,9 +22,12 @@ import {
 } from "../Preview/PreviewStyle";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { RootState } from "../../store/store";
 
 export default function Result() {
-  const questionListItem = useSelector((state) => state.questionListItem.value);
+  const questionListItem = useSelector(
+    (state: RootState) => state.questionListItem.value
+  );
   const location = useLocation();
   const inputValues = location?.state?.inputValues || {};
   const selectedOption = location?.state?.selectedOption || {};
@@ -104,6 +107,7 @@ export default function Result() {
                       inputValues.checkedRadioEtc[index]) ||
                     false
                   }
+                  readOnly
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel>기타:</PreviewEtcLabel>
@@ -153,6 +157,7 @@ export default function Result() {
                       inputValues.checkedBoxEtc[index]) ||
                     false
                   }
+                  readOnly
                 />
                 <PreviewEtcDiv>
                   <PreviewEtcLabel>기타:</PreviewEtcLabel>

@@ -8,9 +8,12 @@ import {
   ResetBtn,
   ModalBtnWrap,
 } from "./ModalStyle";
-
-export default function Modal({ closeModal, reset }) {
-  const stopPropagation = (event) => {
+interface ModalProps {
+  closeModal: () => void;
+  reset: () => void;
+}
+const Modal = ({ closeModal, reset }: ModalProps) => {
+  const stopPropagation = (event: React.MouseEvent<HTMLElement>): void => {
     event.stopPropagation();
   };
   return (
@@ -31,4 +34,6 @@ export default function Modal({ closeModal, reset }) {
       </ModalWrapper>
     </ModalBackground>
   );
-}
+};
+
+export default Modal;

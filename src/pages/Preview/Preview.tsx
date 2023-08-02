@@ -33,12 +33,21 @@ import {
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 
+interface IState {
+  questionListTitle: { value: string };
+  questionListItem: { value: any[] };
+}
+
 export default function Preview() {
-  const questionListItem = useSelector((state) => state.questionListItem.value);
-  const [isActive, setIsActive] = useState({});
-  const [selectedOption, setSelectedOption] = useState({});
-  const [unAnsweredIndex, setUnAnsweredIndex] = useState(-1);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const questionListItem = useSelector(
+    (state: IState) => state.questionListItem.value
+  );
+  const [isActive, setIsActive] = useState<Record<number, boolean>>({});
+  const [selectedOption, setSelectedOption] = useState<Record<number, string>>(
+    {}
+  );
+  const [unAnsweredIndex, setUnAnsweredIndex] = useState<number>(-1);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -49,7 +58,7 @@ export default function Preview() {
 
   const handleResult = () => {
     const inputValues = Object.entries(inputRefs.current).reduce(
-      (acc, [key, refMap]) => {
+      (acc: any, [key, refMap]: [string, any]) => {
         acc[key] = {};
         for (const id in refMap) {
           if (key === "checkRadio" || key === "checkBox") {
@@ -81,7 +90,10 @@ export default function Preview() {
       setUnAnsweredIndex(unAnsweredIndex);
     }
   };
-  const checkRequiredAnswers = (inputValues, selectedOption) => {
+  const checkRequiredAnswers = (
+    inputValues: any,
+    selectedOption: Record<number, string>
+  ) => {
     const unAnsweredIndex = questionListItem.findIndex((item, index) => {
       if (!item.required) return false;
       const id = index;
@@ -110,14 +122,14 @@ export default function Preview() {
     return unAnsweredIndex >= 0 ? unAnsweredIndex : -1;
   };
 
-  const [checkedSquare, setCheckedSquare] = useState(
+  const [checkedSquare, setCheckedSquare] = useState<boolean[]>(
     new Array(
       questionListItem.filter(
         (item) => item.type === "체크박스" && item.etc
       ).length
     ).fill(false)
   );
-  const [checkedRadio, setCheckedRadio] = useState(
+  const [checkedRadio, setCheckedRadio] = useState<boolean[]>(
     new Array(
       questionListItem.filter(
         (item) => item.type === "객관식 질문" && item.etc
@@ -125,17 +137,26 @@ export default function Preview() {
     ).fill(false)
   );
 
-  const inputRefs = useRef({
+  const inputRefs = useRef<{
+    shortAnswer: any;
+    longAnswer: any;
+    radioEtc: any;
+    checkboxEtc: any;
+    checkBox: any;
+    checkRadio: any;
+    checkedRadioEtc: any;
+    checkedBoxEtc: any;
+  }>({
     shortAnswer: {}, // 단답형
     longAnswer: {}, // 장문형
     radioEtc: {}, // 객관식 질문 기타란
     checkboxEtc: {}, // 체크박스 기타란
     checkBox: {}, // 체크박스 체크 유무
     checkRadio: {}, // 라디오 체크 유무
-    checkedRadioEtc: {}, // 기타 라디오 체크 유무
+    checkedRadioEtc: {}, // 기타라디오 체크 유무
     checkedBoxEtc: {}, // 기타 체크박스 체크 유무
   });
-  const handleCheckboxEtcClick = (index) => {
+  const handleCheckboxEtcClick = (index: number) => {
     setCheckedSquare((prevCheckedSquare) => {
       const newCheckedSquare = [...prevCheckedSquare];
       newCheckedSquare[index] = !newCheckedSquare[index];
@@ -145,7 +166,7 @@ export default function Preview() {
       setUnAnsweredIndex(-1);
     }
   };
-  const handleCheckboxEtcClickRadio = (index) => {
+  const handleCheckboxEtcClickRadio = (index: number) => {
     setCheckedRadio((prevCheckedRadio) => {
       const newCheckedRadio = [...prevCheckedRadio];
       newCheckedRadio[index] = !newCheckedRadio[index];
@@ -173,30 +194,30 @@ export default function Preview() {
         ).length
       ).fill(false)
     );
-    Object.values(inputRefs.current.shortAnswer).forEach(
-      (ref) => ref && (ref.value = "")
-    );
-    Object.values(inputRefs.current.longAnswer).forEach(
-      (ref) => ref && (ref.value = "")
-    );
-    Object.values(inputRefs.current.radioEtc).forEach(
-      (ref) => ref && (ref.value = "")
-    );
-    Object.values(inputRefs.current.checkboxEtc).forEach(
-      (ref) => ref && (ref.value = "")
-    );
-    Object.values(inputRefs.current.checkBox).forEach(
-      (ref) => ref && (ref.checked = false)
-    );
-    Object.values(inputRefs.current.checkRadio).forEach(
-      (ref) => ref && (ref.checked = false)
-    );
-    Object.values(inputRefs.current.checkedRadioEtc).forEach(
-      (ref) => ref && (ref.checked = false)
-    );
-    Object.values(inputRefs.current.checkedBoxEtc).forEach(
-      (ref) => ref && (ref.checked = false)
-    );
+    Object.values(
+      inputRefs.current.shortAnswer as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.value = ""));
+    Object.values(
+      inputRefs.current.longAnswer as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.value = ""));
+    Object.values(
+      inputRefs.current.radioEtc as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.value = ""));
+    Object.values(
+      inputRefs.current.checkboxEtc as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.value = ""));
+    Object.values(
+      inputRefs.current.checkBox as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.checked = false));
+    Object.values(
+      inputRefs.current.checkRadio as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.checked = false));
+    Object.values(
+      inputRefs.current.checkedRadioEtc as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.checked = false));
+    Object.values(
+      inputRefs.current.checkedBoxEtc as { [key: string]: HTMLInputElement }
+    ).forEach((ref) => ref && (ref.checked = false));
     setIsActive({});
     setSelectedOption({});
     setIsModalVisible(false);
@@ -252,7 +273,7 @@ export default function Preview() {
             )}
             {item.type === "객관식 질문" && (
               <ul>
-                {item.items.map((item, optionIdx) => {
+                {item.items.map((item: string[], optionIdx: number) => {
                   const itemId = `${randomId()}`;
                   return (
                     <QuestionItemLi key={optionIdx}>
@@ -296,16 +317,14 @@ export default function Preview() {
                       onClick={() => handleCheckboxEtcClickRadio(index)}
                       ref={(el) => (inputRefs.current.radioEtc[index] = el)}
                     />
-                    <AnimatedPreviewEtcSpan
-                      alert={unAnsweredIndex === index ? "true" : "false"}
-                    />
+                    <AnimatedPreviewEtcSpan />
                   </AnimatePreviewEtcDiv>
                 </PreviewEtcDiv>
               </QuestionListWrapDiv>
             )}
             {item.type === "체크박스" && (
               <ul>
-                {item.items.map((item, optionIdx) => {
+                {item.items.map((item: string[], optionIdx: number) => {
                   const itemId = `${randomId()}`;
                   return (
                     <QuestionItemLi key={optionIdx}>
@@ -349,9 +368,7 @@ export default function Preview() {
                       onClick={() => handleCheckboxEtcClick(index)}
                       ref={(el) => (inputRefs.current.checkboxEtc[index] = el)}
                     />
-                    <AnimatedPreviewEtcSpan
-                      alert={unAnsweredIndex === index ? "true" : "false"}
-                    />
+                    <AnimatedPreviewEtcSpan />
                   </AnimatePreviewEtcDiv>
                 </PreviewEtcDiv>
               </QuestionListWrapDiv>
@@ -367,15 +384,15 @@ export default function Preview() {
               >
                 <button type="button">{selectedOption[index] || "선택"}</button>
                 <ul>
-                  {item.items.map((item, idx) => (
+                  {item.items.map((item: string, idx: number) => (
                     <li key={idx}>
                       <button
                         type="button"
-                        onClick={(e, prev) => {
+                        onClick={(e) => {
                           e.stopPropagation();
                           setSelectedOption((prev) => ({
                             ...prev,
-                            [index]: item,
+                            [index]: item as string,
                           }));
                           setIsActive(() => ({
                             [index]: false,

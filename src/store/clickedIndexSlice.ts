@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: 0,
-}
+};
 
 export const clickedIndexSlice = createSlice({
-  name: 'clickedIndex',
+  name: "clickedIndex",
   initialState,
   reducers: {
     increment: (state) => {
@@ -16,9 +16,9 @@ export const clickedIndexSlice = createSlice({
     },
     setIndex: (state, action) => {
       state.value = action.payload;
-    }
+    },
   },
-})
+});
 
-export const { increment, decrement, setIndex } = clickedIndexSlice.actions
-export default clickedIndexSlice.reducer
+export const { increment, decrement, setIndex } = clickedIndexSlice.actions;
+export default clickedIndexSlice.reducer;
