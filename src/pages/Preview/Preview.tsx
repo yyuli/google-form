@@ -176,6 +176,26 @@ export default function Preview() {
       setUnAnsweredIndex(-1);
     }
   };
+  const handleInputEtcClickRadio = (index: number) => {
+    setCheckedRadio((prevCheckedRadio) => {
+      const newCheckedRadio = [...prevCheckedRadio];
+      newCheckedRadio[index] = true;
+      return newCheckedRadio;
+    });
+    if (unAnsweredIndex === index) {
+      setUnAnsweredIndex(-1);
+    }
+  };
+  const handleInputEtcClick = (index: number) => {
+    setCheckedSquare((prevCheckedSquare) => {
+      const newCheckedSquare = [...prevCheckedSquare];
+      newCheckedSquare[index] = true;
+      return newCheckedSquare;
+    });
+    if (unAnsweredIndex === index) {
+      setUnAnsweredIndex(-1);
+    }
+  };
   const randomId = () => {
     return "_" + Math.random().toString(36).substring(2, 9) + "_";
   };
@@ -314,7 +334,7 @@ export default function Preview() {
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      onClick={() => handleCheckboxEtcClickRadio(index)}
+                      onClick={() => handleInputEtcClickRadio(index)}
                       ref={(el) => (inputRefs.current.radioEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
@@ -365,7 +385,7 @@ export default function Preview() {
                   <AnimatePreviewEtcDiv>
                     <PreviewEtcInput
                       type="text"
-                      onClick={() => handleCheckboxEtcClick(index)}
+                      onClick={() => handleInputEtcClick(index)}
                       ref={(el) => (inputRefs.current.checkboxEtc[index] = el)}
                     />
                     <AnimatedPreviewEtcSpan />
