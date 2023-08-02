@@ -31,12 +31,20 @@ import {
   PreviewAlertP,
 } from "./PreviewStyle";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Modal/Modal";
 
 export default function Preview() {
   const questionListItem = useSelector((state) => state.questionListItem.value);
   const [isActive, setIsActive] = useState({});
   const [selectedOption, setSelectedOption] = useState({});
   const [unAnsweredIndex, setUnAnsweredIndex] = useState(-1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
   const navigate = useNavigate();
 
   const handleResult = () => {
@@ -191,6 +199,7 @@ export default function Preview() {
     );
     setIsActive({});
     setSelectedOption({});
+    setIsModalVisible(false);
   };
   return (
     <>
@@ -391,10 +400,11 @@ export default function Preview() {
         <SubmitBtn type="submit" onClick={handleResult}>
           제출
         </SubmitBtn>
-        <ResetBtn type="button" onClick={reset}>
+        <ResetBtn type="button" onClick={showModal}>
           양식 지우기
         </ResetBtn>
       </BtnWrap>
+      {isModalVisible && <Modal closeModal={closeModal} reset={reset} />}
     </>
   );
 }
