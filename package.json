@@ -52,5 +52,5 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "gh-pages": "^6.0.0"
   },
-  "homepage": "https://yyuli.github.io/google-form"
+  "homepage": "https://googlesurveyform.netlify.app"
 }
