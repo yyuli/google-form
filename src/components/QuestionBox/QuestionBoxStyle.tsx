@@ -189,9 +189,9 @@ const QuestionListRemoveBtn = styled.button`
   }
 `;
 const QuestionListAddInput = styled.input`
-  width: 53px;
+  width: 56px;
   height: 30px;
-  margin: 0 6px 0 10px;
+  margin: 0 3px 0 10px;
 `;
 const QuestionListAddDiv = styled.div`
   display: flex;
@@ -212,7 +212,7 @@ const QuestionListAddBtn = styled.button`
   cursor: pointer;
   width: 75px;
   height: 36px;
-  padding: 8px;
+  /* padding: 8px; */
   &:hover {
     background-color: #f8fafe;
     border-radius: 1px;
