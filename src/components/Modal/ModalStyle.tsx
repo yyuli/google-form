@@ -14,7 +14,6 @@ const ModalBackground = styled.article`
 `;
 const ModalWrapper = styled.div`
   display: inline-block;
-  width: 373px;
   height: 144px;
   background-color: #fff;
   border-radius: 8px;

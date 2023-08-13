@@ -114,7 +114,6 @@ const BtnWrap = styled.div`
   margin-top: 12px;
 `;
 const SubmitBtn = styled.button`
-  width: 73px;
   height: 36px;
   background-color: #673ab7;
   border-radius: 4px;
