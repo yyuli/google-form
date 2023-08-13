@@ -22,8 +22,8 @@ const PreviewEtcDiv = styled(QuestionListEtcDiv)`
 const PreviewEtcLabel = styled.label`
   display: block;
   font-size: 14px;
-  width: 32px;
-  margin-right: 20px;
+  width: 34px;
+  margin-right: 14px;
 `;
 const AnimatedPreviewEtcSpan = styled.span`
   ${CommonSpan}
