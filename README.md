@@ -64,5 +64,5 @@
 
 제출 기능
 | ---
-| <img src="https://github.com/yyuli/google-form/assets/119276010/5cb90445-a031-4d33-8557-2c35bd088d8f" width="550px" />
+| <img src="https://github.com/yyuli/google-form/assets/119276010/dece5d39-991c-4241-8c8a-34a2b1b29e26" width="550px" />
 | - 제출 버튼을 클릭하면 설문지를 제출할 수 있음 <br> - 제출한 내용은 수정할 수 없음
