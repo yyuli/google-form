@@ -1,6 +1,18 @@
 # Google Forms
-
+<img width="1090" alt="googleforms" src="https://github.com/yyuli/google-form/assets/119276010/f4ac0656-a8e4-4533-8b2a-f815a8571453">
 <br>
+<br>
+
+- 배포 사이트: https://googlesurveyform.netlify.app/ 
+<br>
+
+## 개발 환경 및 기술 스택
+- React
+- TypeScript
+- Redux Toolkit
+- Styled Components
+- react-beautiful-dnd
+- Netlify
 <br>
 
 ## 주요 기능
